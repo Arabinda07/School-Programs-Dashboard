@@ -58,8 +58,8 @@ export const SupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       const { data: testData, error: testError } = await supabase.from('programs').select('id').limit(1);
       
-      if (testError && (testError.code === 'PGRST116' || testError?.code === '42P01')) {
-         console.warn('Supabase tables not available, falling back to mock data.', testError);
+      if (testError && (testError.code === 'PGRST116' || testError?.code === '42P01' || testError.message === 'Failed to fetch')) {
+         console.warn('Supabase tables not available or network error, falling back to mock data.', testError);
          setUseFallback(true);
          setData(initialData as any);
          setLoading(false);

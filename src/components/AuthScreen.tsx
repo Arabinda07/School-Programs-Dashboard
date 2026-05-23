@@ -30,7 +30,11 @@ export function AuthScreen() {
         setPassword('');
       }
     } catch (err: any) {
-      setErrorMsg(err.message);
+      let msg = err.message;
+      if (msg === 'Failed to fetch') {
+         msg = "Failed to connect to Supabase. Please verify your Supabase URL and Anon Key are correct and that CORS is configured properly.";
+      }
+      setErrorMsg(msg);
     } finally {
       setLoading(false);
     }
