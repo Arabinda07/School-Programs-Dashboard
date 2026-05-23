@@ -1,0 +1,152 @@
+[
+  {
+    "id": "TCH-001",
+    "name": "Neha Desai",
+    "role": "Principal",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-002",
+    "name": "Meera Mukherjee",
+    "role": "Academic Coordinator",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-003",
+    "name": "Suresh Sengupta",
+    "role": "Academic Coordinator",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-004",
+    "name": "Amit Reddy",
+    "role": "Activity Coordinator",
+    "department": "Math"
+  },
+  {
+    "id": "TCH-005",
+    "name": "Arun Sengupta",
+    "role": "Activity Coordinator",
+    "department": "English"
+  },
+  {
+    "id": "TCH-006",
+    "name": "Nishant Bose",
+    "role": "Vendor Facilitator",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-007",
+    "name": "Neha Joshi",
+    "role": "Vendor Facilitator",
+    "department": "Math"
+  },
+  {
+    "id": "TCH-008",
+    "name": "Deepika Reddy",
+    "role": "Vendor Facilitator",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-009",
+    "name": "Suresh Joshi",
+    "role": "Teacher",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-010",
+    "name": "Vikram Pandey",
+    "role": "Teacher",
+    "department": "Science"
+  },
+  {
+    "id": "TCH-011",
+    "name": "Arun Desai",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-012",
+    "name": "Sneha Nair",
+    "role": "Teacher",
+    "department": "Math"
+  },
+  {
+    "id": "TCH-013",
+    "name": "Pooja Pandey",
+    "role": "Teacher",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-014",
+    "name": "Neha Reddy",
+    "role": "Teacher",
+    "department": "English"
+  },
+  {
+    "id": "TCH-015",
+    "name": "Neha Chatterji",
+    "role": "Teacher",
+    "department": "Science"
+  },
+  {
+    "id": "TCH-016",
+    "name": "Vikram Singh",
+    "role": "Teacher",
+    "department": "Science"
+  },
+  {
+    "id": "TCH-017",
+    "name": "Ramesh Kumar",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-018",
+    "name": "Smita Mukherjee",
+    "role": "Teacher",
+    "department": "Science"
+  },
+  {
+    "id": "TCH-019",
+    "name": "Gaurav Kumar",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-020",
+    "name": "Sanjay Nair",
+    "role": "Teacher",
+    "department": "Social Studies"
+  },
+  {
+    "id": "TCH-021",
+    "name": "Sneha Mishra",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-022",
+    "name": "Sunita Desai",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-023",
+    "name": "Priya Patel",
+    "role": "Teacher",
+    "department": "Math"
+  },
+  {
+    "id": "TCH-024",
+    "name": "Sneha Chatterji",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  },
+  {
+    "id": "TCH-025",
+    "name": "Manoj Joshi",
+    "role": "Teacher",
+    "department": "Extracurricular"
+  }
+]

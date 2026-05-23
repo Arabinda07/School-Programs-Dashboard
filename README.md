@@ -1,11 +1,45 @@
-<div align="center">
+# School Program Command Centre (SPCC)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A clean admin dashboard prototype built for Indian school leadership to oversee multiple academic, enrichment, and co-curricular programs.
 
-  <h1>Built with AI Studio</h2>
+## Setup Instructions
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+1. Ensure you have Node.js (v18+) installed.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Architecture
 
-</div>
+This is a **frontend-only App Shell** built with React, Vite, and Tailwind CSS. It is fully responsive and prioritizes a clean, readable layout matching the specified design direction (professional, calm, status-driven).
+
+### Features Implemented
+- App Shell with left-side navigation rail.
+- Top command header displaying school context and live system status.
+- Primary page routing via active tab state.
+- EmptyState and LoadingState UI components.
+- Initial placeholder modules for:
+  - Overview / Command Centre
+  - Programs Directory
+  - Activities Scheduler & Logs
+  - Diagnostic Assessments
+  - Evidence Portal
+  - Action Tracker
+  - Report Builder
+
+### Intentionally Not Implemented
+- Full Chart Logic (Recharts logic removed in favor of shell layout per instructions)
+- External API calls or data fetching
+- Database connectivity or real persistence
+- Authentication / User roles
+- School ERP transactional modules (fees, timetable)
+- The components rely on mock local data to set the scaffolding context.

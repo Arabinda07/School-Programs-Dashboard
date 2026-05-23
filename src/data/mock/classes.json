@@ -1,0 +1,72 @@
+[
+  {
+    "id": "CLS-6A",
+    "grade_level": 6,
+    "section": "A",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-009"
+  },
+  {
+    "id": "CLS-6B",
+    "grade_level": 6,
+    "section": "B",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-010"
+  },
+  {
+    "id": "CLS-7A",
+    "grade_level": 7,
+    "section": "A",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-011"
+  },
+  {
+    "id": "CLS-7B",
+    "grade_level": 7,
+    "section": "B",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-012"
+  },
+  {
+    "id": "CLS-8A",
+    "grade_level": 8,
+    "section": "A",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-013"
+  },
+  {
+    "id": "CLS-8B",
+    "grade_level": 8,
+    "section": "B",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-014"
+  },
+  {
+    "id": "CLS-9A",
+    "grade_level": 9,
+    "section": "A",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-015"
+  },
+  {
+    "id": "CLS-9B",
+    "grade_level": 9,
+    "section": "B",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-016"
+  },
+  {
+    "id": "CLS-10A",
+    "grade_level": 10,
+    "section": "A",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-017"
+  },
+  {
+    "id": "CLS-10B",
+    "grade_level": 10,
+    "section": "B",
+    "student_strength": 60,
+    "class_teacher_id": "TCH-018"
+  }
+]

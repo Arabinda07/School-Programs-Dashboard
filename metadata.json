@@ -1,0 +1,6 @@
+{
+  "name": "School Program Command Centre",
+  "description": "An academy and enrichment program command centre for Indian schools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
