@@ -5,6 +5,8 @@ import { CheckCircle2, AlertCircle } from 'lucide-react';
 
 export function AuthScreen() {
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [role, setRole] = useState('Teacher');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -22,12 +24,23 @@ export function AuthScreen() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              role: role,
+            }
+          }
+        });
         if (error) throw error;
         
         setIsLogin(true);
         setSignupSuccess(true);
         setPassword('');
+        setFullName('');
+        setRole('Teacher');
       }
     } catch (err: any) {
       let msg = err.message;
@@ -64,6 +77,23 @@ export function AuthScreen() {
           )}
 
           <form onSubmit={handleAuth} className="space-y-4">
+            {!isLogin && (
+              <>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
+                  <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} required className="w-full border border-gray-200 rounded-md p-2 text-sm" placeholder="John Doe" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Role</label>
+                  <select value={role} onChange={e => setRole(e.target.value)} className="w-full border border-gray-200 rounded-md p-2 text-sm bg-white">
+                    <option value="Teacher">Teacher</option>
+                    <option value="Principal">Principal</option>
+                    <option value="Academic Coordinator">Academic Coordinator</option>
+                    <option value="Vendor Facilitator">Vendor Facilitator</option>
+                  </select>
+                </div>
+              </>
+            )}
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
               <input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="w-full border border-gray-200 rounded-md p-2 text-sm" />
@@ -81,6 +111,8 @@ export function AuthScreen() {
                  setSignupSuccess(false);
                  setErrorMsg('');
                  setPassword('');
+                 setFullName('');
+                 setRole('Teacher');
               }} className="text-indigo-600 hover:underline block w-full">
                 {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
               </button>
