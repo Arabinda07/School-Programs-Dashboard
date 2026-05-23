@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
+import { useSupabaseContext } from '../../context/SupabaseContext';
 import { AlertTriangle, Search, Filter, AlertCircle, Clock, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 export function ActionTracker() {
@@ -10,8 +10,19 @@ export function ActionTracker() {
   const [ownerFilter, setOwnerFilter] = useState('All');
   const [severityFilter, setSeverityFilter] = useState('All');
 
-  const { actions, programs, teachers } = initialData;
+  const { actions, programs, teachers, updateItem } = useSupabaseContext();
   const currentDate = new Date('2026-05-23');
+
+  const handleMarkResolved = async (id: string) => {
+    try {
+      await updateItem('actions', id, { 
+        status: 'Resolved', 
+        resolved_date: new Date().toISOString().split('T')[0] 
+      });
+    } catch (e: any) {
+      alert('Failed to update action: ' + e.message);
+    }
+  };
 
   const enrichedActions = useMemo(() => {
     return actions.map((act: any) => {
@@ -239,7 +250,7 @@ export function ActionTracker() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         {act.status !== 'Resolved' ? (
-                           <Button variant="outline" className="text-xs px-2 py-1 h-auto">Mark Resolved</Button>
+                           <Button onClick={() => handleMarkResolved(act.id)} variant="outline" className="text-xs px-2 py-1 h-auto">Mark Resolved</Button>
                         ) : (
                            <span className="text-xs text-gray-400 italic">Done on<br/>{act.resolved_date}</span>
                         )}

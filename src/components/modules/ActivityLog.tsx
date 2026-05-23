@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
+import { useSupabaseContext } from '../../context/SupabaseContext';
 import { CalendarDays, Search, Filter, AppWindow, Users } from 'lucide-react';
 
 export function ActivityLog() {
@@ -9,7 +9,7 @@ export function ActivityLog() {
   const [programFilter, setProgramFilter] = useState('All');
   const [classFilter, setClassFilter] = useState('All');
 
-  const { activities, programs, classes, teachers } = initialData;
+  const { activities, programs, classes, teachers } = useSupabaseContext();
 
   const enrichedActivities = useMemo(() => {
     return activities.map((act: any) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { initialData } from './data';
+import { useSupabaseContext } from './context/SupabaseContext';
 import { 
   LayoutDashboard, 
   FolderGit2, 
@@ -10,7 +10,9 @@ import {
   BarChart3,
   School,
   Settings,
-  Bell
+  Bell,
+  Database,
+  LogOut
 } from 'lucide-react';
 import { CommandCentre } from './components/modules/CommandCentre';
 import { ProgramsDirectory } from './components/modules/ProgramsDirectory';
@@ -19,15 +21,22 @@ import { AssessmentView } from './components/modules/AssessmentView';
 import { EvidencePortal } from './components/modules/EvidencePortal';
 import { ActionTracker } from './components/modules/ActionTracker';
 import { ReportBuilder } from './components/modules/ReportBuilder';
+import { AuthScreen } from './components/AuthScreen';
 import { cn } from './lib/utils';
-import { Badge } from './components/ui';
+import { Badge, Button } from './components/ui';
+import { supabase } from './lib/supabase';
 
 type Tab = 'overview' | 'programs' | 'sessions' | 'assessments' | 'evidence' | 'actions' | 'reports';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
-  // Simple read-only state for V1 prototype
-  const [data] = useState(initialData);
+  const contextData = useSupabaseContext();
+  const { user, seedData } = contextData;
+  const data = contextData; // for compatibility with subcomponents
+
+  if (!user) {
+    return <AuthScreen />;
+  }
 
   const tabs = [
     { id: 'overview', name: 'Command Centre', icon: LayoutDashboard },
@@ -38,6 +47,7 @@ export default function App() {
     { id: 'actions', name: 'Action Tracker', icon: AlertTriangle },
     { id: 'reports', name: 'Report Builder', icon: BarChart3 },
   ] as const;
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -95,14 +105,19 @@ export default function App() {
         </div>
 
         <div className="mt-auto px-6 py-4 border-t border-gray-800">
-          <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-white border border-gray-600">
-              PR
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-white border border-gray-600">
+                PR
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-white">Principal Desk</p>
+                <p className="text-xs text-gray-400">Command Access</p>
+              </div>
             </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-white">Principal Desk</p>
-              <p className="text-xs text-gray-400">Command Access</p>
-            </div>
+            <button onClick={() => supabase.auth.signOut()} title="Sign Out" className="text-gray-400 hover:text-white transition-colors">
+              <LogOut className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
@@ -124,11 +139,12 @@ export default function App() {
              </div>
           </div>
           <div className="flex items-center space-x-4 text-gray-400">
-             <button className="hover:text-gray-600 relative">
+             <button onClick={seedData} title="Seed Database (Admin)" className="hover:text-gray-600"><Database className="w-5 h-5"/></button>
+             <button title="Notifications" onClick={() => alert("Notifications module not implemented yet.")} className="hover:text-gray-600 relative">
                <Bell className="w-5 h-5"/>
                <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white"></span>
              </button>
-             <button className="hover:text-gray-600"><Settings className="w-5 h-5"/></button>
+             <button title="Settings" onClick={() => alert("Settings module not implemented yet.")} className="hover:text-gray-600"><Settings className="w-5 h-5"/></button>
           </div>
         </header>
 

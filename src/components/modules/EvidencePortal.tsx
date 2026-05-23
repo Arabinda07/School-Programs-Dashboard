@@ -1,15 +1,110 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
-import { FileCheck, Search, Filter, AlertCircle, Clock, FileX, CheckCircle } from 'lucide-react';
+import { useSupabaseContext } from '../../context/SupabaseContext';
+import { FileCheck, Search, Filter, AlertCircle, Clock, FileX, CheckCircle, Trash2 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export function EvidencePortal() {
   const [search, setSearch] = useState('');
   const [programFilter, setProgramFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('All');
+  const [uploadDocId, setUploadDocId] = useState<string | null>(null);
+  
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { documentation, programs, activities } = initialData;
+  const { documentation, programs, activities, updateItem, user, useFallback } = useSupabaseContext();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadDocId) return;
+    if (!file && !useFallback) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    
+    setUploading(true);
+    try {
+      let filePath = null;
+
+      if (!useFallback && file && user) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${uploadDocId}.${fileExt}`;
+        filePath = `${user.id}/documentation/${uploadDocId}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('app-files')
+          .upload(filePath, file, { upsert: true });
+
+        if (uploadError) throw uploadError;
+      }
+
+      const updates: any = {
+         status: 'Pending',
+         uploaded_date: new Date().toISOString().split('T')[0]
+      };
+      if (filePath) {
+         updates.file_path = filePath;
+      }
+
+      await updateItem('documentation', uploadDocId, updates);
+      setUploadDocId(null);
+      setFile(null);
+    } catch (err: any) {
+      alert("Failed to upload: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleView = async (doc: any) => {
+    if (!doc.file_path) {
+      alert("No file path found for this document! Local mockup only.");
+      return;
+    }
+    try {
+      const { data, error } = await supabase.storage
+        .from('app-files')
+        .createSignedUrl(doc.file_path, 60 * 60); // 1 hour access
+
+      if (error) throw error;
+      if (data?.signedUrl) {
+        window.open(data.signedUrl, '_blank');
+      }
+    } catch (err: any) {
+      alert("Failed to open file: " + err.message);
+    }
+  };
+
+  const handleDelete = async (doc: any) => {
+    if (!confirm("Are you sure you want to delete this evidence?")) return;
+    try {
+      if (doc.file_path && !useFallback) {
+        const { error: removeError } = await supabase.storage
+          .from('app-files')
+          .remove([doc.file_path]);
+        if (removeError) {
+           console.warn("Storage removal warning:", removeError);
+        }
+      }
+      
+      await updateItem('documentation', doc.id, {
+        status: 'Missing',
+        uploaded_date: null,
+        file_path: null
+      });
+    } catch (err: any) {
+      alert("Failed to delete: " + err.message);
+    }
+  };
 
   const enrichedDocs = useMemo(() => {
     return documentation.map((doc: any) => {
@@ -214,10 +309,23 @@ export function EvidencePortal() {
                         {getStatusBadge(doc.status)}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        {(isMissing || isPending) ? (
-                          <Button variant="outline" className="text-xs px-2 py-1 h-auto">Upload</Button>
+                        {(isMissing || isPending || doc.status === 'Rejected') ? (
+                          <div className="flex items-center justify-end space-x-2">
+                             {(doc.file_path || useFallback) && !isMissing && (
+                               <Button variant="ghost" onClick={() => handleView(doc)} className="text-xs px-2 py-1 h-auto text-indigo-600 hover:text-indigo-800 focus:ring-0">View</Button>
+                             )}
+                             <Button onClick={() => setUploadDocId(doc.id)} variant="outline" className="text-xs px-2 py-1 h-auto">
+                               {(doc.file_path || useFallback) && !isMissing ? 'Replace' : 'Upload'}
+                             </Button>
+                             {(doc.file_path || useFallback) && !isMissing && (
+                               <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash2 className="w-4 h-4"/></Button>
+                             )}
+                          </div>
                         ) : (
-                          <Button variant="ghost" className="text-xs px-2 py-1 h-auto">View</Button>
+                          <div className="flex items-center justify-end space-x-2">
+                             <Button variant="ghost" onClick={() => handleView(doc)} className="text-xs px-2 py-1 h-auto text-indigo-600 hover:text-indigo-800 focus:ring-0">View</Button>
+                             <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash2 className="w-4 h-4"/></Button>
+                          </div>
                         )}
                       </td>
                     </tr>
@@ -229,6 +337,42 @@ export function EvidencePortal() {
         </div>
       </Card>
       
+      {uploadDocId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-in fade-in">
+           <form onSubmit={handleUploadSubmit} className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 animate-in slide-in-from-bottom-4">
+             <h3 className="text-lg font-bold text-gray-900 mb-2">Upload Evidence</h3>
+             <p className="text-sm text-gray-500 mb-4">Please upload a valid PDF or image file.</p>
+             
+             <div 
+               className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center bg-gray-50 mb-4 hover:border-indigo-400 hover:bg-indigo-50/50 cursor-pointer transition-colors"
+               onClick={() => fileInputRef.current?.click()}
+             >
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  className="hidden" 
+                  onChange={handleFileChange}
+                />
+                <FileCheck className="w-8 h-8 mx-auto mb-2 text-indigo-400" />
+                <p className="text-sm font-medium text-gray-700">
+                   {file ? file.name : "Click to browse or drag file here"}
+                </p>
+                {file && <p className="text-xs text-gray-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB</p>}
+             </div>
+
+             <div className="flex justify-end space-x-3">
+               <Button variant="ghost" disabled={uploading} onClick={() => {
+                 setUploadDocId(null);
+                 setFile(null);
+               }} type="button">Cancel</Button>
+               <Button type="submit" disabled={uploading}>
+                 {uploading ? 'Processing...' : 'Submit Evidence'}
+               </Button>
+             </div>
+           </form>
+        </div>
+      )}
+
     </div>
   );
 }

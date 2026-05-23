@@ -1,15 +1,31 @@
 import React, { useState, useMemo } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
-import { FolderGit2, Search, Filter, ChevronDown, ChevronUp, FileText, AlertCircle, PlayCircle } from 'lucide-react';
+import { useSupabaseContext } from '../../context/SupabaseContext';
+import { FolderGit2, Search, Filter, ChevronDown, ChevronUp, FileText, AlertCircle, PlayCircle, Settings2 } from 'lucide-react';
 
 export function ProgramsDirectory() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [editingProgram, setEditingProgram] = useState<any>(null);
 
-  const { programs, activities, documentation, actions, teachers } = initialData;
+  const { programs, activities, documentation, actions, teachers, updateItem } = useSupabaseContext();
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProgram) return;
+    try {
+      await updateItem('programs', editingProgram.id, {
+         name: editingProgram.name,
+         status: editingProgram.status,
+         budget_consumed: parseInt(editingProgram.budget_consumed, 10)
+      });
+      setEditingProgram(null);
+    } catch (err: any) {
+      alert("Failed to update program: " + err.message);
+    }
+  };
 
   const enrichedPrograms = useMemo(() => {
     return programs.map((prog: any) => {
@@ -178,7 +194,15 @@ export function ProgramsDirectory() {
                             </div>
                             
                             {/* Summary Metrics */}
-                            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm relative">
+                              <Button 
+                                variant="ghost" 
+                                className="absolute top-2 right-2 p-1 h-auto"
+                                onClick={() => setEditingProgram({ ...prog })}
+                                title="Edit Program Details"
+                              >
+                                <Settings2 className="w-4 h-4 text-gray-400 hover:text-indigo-600" />
+                              </Button>
                               <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2 mb-3">Activities & Docs</h4>
                               <div className="space-y-3">
                                 <div className="flex items-center space-x-3">
@@ -232,6 +256,39 @@ export function ProgramsDirectory() {
           </table>
         </div>
       </Card>
+
+      {editingProgram && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-in fade-in">
+           <form onSubmit={handleEditSubmit} className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 animate-in slide-in-from-bottom-4">
+             <h3 className="text-lg font-bold text-gray-900 mb-4">Edit Program: {editingProgram.id}</h3>
+             
+             <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Program Name</label>
+                  <input type="text" className="w-full text-sm border border-gray-200 rounded-md p-2 focus:ring-2 focus:ring-indigo-500" value={editingProgram.name} onChange={e => setEditingProgram({...editingProgram, name: e.target.value})} />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                  <select className="w-full text-sm border border-gray-200 rounded-md p-2 focus:ring-2 focus:ring-indigo-500" value={editingProgram.status} onChange={e => setEditingProgram({...editingProgram, status: e.target.value})}>
+                     <option value="Active">Active</option>
+                     <option value="Delayed">Delayed</option>
+                     <option value="At Risk">At Risk</option>
+                     <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Budget Consumed (₹)</label>
+                  <input type="number" className="w-full text-sm border border-gray-200 rounded-md p-2 focus:ring-2 focus:ring-indigo-500" value={editingProgram.budget_consumed} onChange={e => setEditingProgram({...editingProgram, budget_consumed: e.target.value})} />
+                </div>
+             </div>
+
+             <div className="flex justify-end space-x-3">
+               <Button variant="ghost" onClick={() => setEditingProgram(null)} type="button">Cancel</Button>
+               <Button type="submit">Save Changes</Button>
+             </div>
+           </form>
+        </div>
+      )}
     </div>
   );
 }

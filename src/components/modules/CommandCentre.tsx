@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
-import { initialData } from '../../data';
+import { useSupabaseContext } from '../../context/SupabaseContext';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge } from '../ui';
 import { Activity, FolderGit2, AlertTriangle, AlertCircle, CalendarDays, CheckCircle2, TrendingUp, Users, FileCheck, Star } from 'lucide-react';
 
 export function CommandCentre() {
   const currentDate = new Date('2026-05-23');
+  
+  const { programs: p, activities: a, documentation: d, actions: ac, feedback: f, classes: c, teachers } = useSupabaseContext();
 
   const {
     activeProgramsCount,
@@ -22,13 +24,6 @@ export function CommandCentre() {
     docAlerts,
     topActions
   } = useMemo(() => {
-    const p = initialData.programs;
-    const a = initialData.activities;
-    const d = initialData.documentation;
-    const ac = initialData.actions;
-    const f = initialData.feedback;
-    const c = initialData.classes;
-
     // KPI: Active programs
     const activeProgramsCount = p.filter((prog: any) => !['Completed', 'Cancelled'].includes(prog.status)).length;
     
@@ -69,7 +64,7 @@ export function CommandCentre() {
       const pDocsMissing = pDocs.some((doc: any) => doc.status === 'Missing');
       
       let indicator = 'Good';
-      if (prog.status === 'Delayed' || prog.status === 'At Risk' || pActions.some((a: any) => a.severity === 'Critical')) {
+      if (prog.status === 'Delayed' || prog.status === 'At Risk' || pActions.some((actItem: any) => actItem.severity === 'Critical')) {
          indicator = 'At Risk';
       } else if (actComp < 50 || pDocsMissing || pActions.length > 2) {
          indicator = 'Watch';
@@ -86,19 +81,19 @@ export function CommandCentre() {
 
     // Timeline
     const timeline = {
-      upcoming: a.filter((act: any) => act.status === 'Planned' && act.target_date && new Date(act.target_date) >= currentDate).sort((a: any, b: any) => new Date(a.target_date).getTime() - new Date(b.target_date).getTime()).slice(0, 5),
-      delayed: a.filter((act: any) => act.status === 'Delayed').sort((a: any, b: any) => new Date(a.target_date).getTime() - new Date(b.target_date).getTime()).slice(0, 5),
-      recent: a.filter((act: any) => act.status === 'Completed' && act.actual_date).sort((a: any, b: any) => new Date(b.actual_date).getTime() - new Date(a.actual_date).getTime()).slice(0, 5)
+      upcoming: a.filter((act: any) => act.status === 'Planned' && act.target_date && new Date(act.target_date) >= currentDate).sort((act1: any, act2: any) => new Date(act1.target_date).getTime() - new Date(act2.target_date).getTime()).slice(0, 5),
+      delayed: a.filter((act: any) => act.status === 'Delayed').sort((act1: any, act2: any) => new Date(act1.target_date).getTime() - new Date(act2.target_date).getTime()).slice(0, 5),
+      recent: a.filter((act: any) => act.status === 'Completed' && act.actual_date).sort((act1: any, act2: any) => new Date(act2.actual_date).getTime() - new Date(act1.actual_date).getTime()).slice(0, 5)
     };
 
     // Doc Alerts
-    const docAlerts = d.filter((doc: any) => ['Missing', 'Pending', 'Rejected'].includes(doc.status)).sort((a: any, b: any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()).slice(0, 6);
+    const docAlerts = d.filter((doc: any) => ['Missing', 'Pending', 'Rejected'].includes(doc.status)).sort((doc1: any, doc2: any) => new Date(doc1.due_date).getTime() - new Date(doc2.due_date).getTime()).slice(0, 6);
 
     // Top actions
-    const topActions = openActions.sort((a: any, b: any) => {
-      if (a.severity === 'Critical' && b.severity !== 'Critical') return -1;
-      if (b.severity === 'Critical' && a.severity !== 'Critical') return 1;
-      return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+    const topActions = openActions.sort((aItem: any, bItem: any) => {
+      if (aItem.severity === 'Critical' && bItem.severity !== 'Critical') return -1;
+      if (bItem.severity === 'Critical' && aItem.severity !== 'Critical') return 1;
+      return new Date(aItem.due_date).getTime() - new Date(bItem.due_date).getTime();
     }).slice(0, 5);
 
     return {
@@ -106,7 +101,7 @@ export function CommandCentre() {
       classReachCount, totalClasses, docCompletion, openActionsCount,
       overdueActionsCount, avgFeedback, programHealth, timeline, docAlerts, topActions
     };
-  }, []);
+  }, [p, a, d, ac, f, c]);
 
   const kpiItems = [
     { label: 'Active Programs', value: activeProgramsCount, icon: FolderGit2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
@@ -239,7 +234,7 @@ export function CommandCentre() {
                            <div>
                              <p className="text-sm font-medium text-gray-900">{action.description}</p>
                              <p className="text-xs text-gray-500 mt-1 flex items-center gap-2">
-                               <span>Assigned to: <span className="font-medium text-gray-700">{initialData.teachers.find(t => t.id === action.owner_id)?.name || 'Unknown'}</span></span>
+                               <span>Assigned to: <span className="font-medium text-gray-700">{teachers.find((t: any) => t.id === action.owner_id)?.name || 'Unknown'}</span></span>
                              </p>
                            </div>
                         </div>
@@ -286,7 +281,7 @@ export function CommandCentre() {
                        <div key={act.id} className="text-sm bg-rose-50/50 p-2.5 rounded border border-rose-100">
                          <div className="font-medium text-gray-900">{act.topic}</div>
                          <div className="flex justify-between items-center mt-1">
-                           <span className="text-xs text-gray-500">{initialData.programs.find(p=>p.id===act.program_id)?.name}</span>
+                           <span className="text-xs text-gray-500">{p.find((pItem: any)=>pItem.id===act.program_id)?.name}</span>
                            <span className="text-[10px] text-rose-600 font-medium">Was: {act.target_date}</span>
                          </div>
                        </div>
@@ -307,7 +302,7 @@ export function CommandCentre() {
                        <div key={act.id} className="text-sm border border-gray-100 p-2.5 rounded hover:bg-gray-50 transition-colors">
                          <div className="font-medium text-gray-900">{act.topic}</div>
                          <div className="flex justify-between items-center mt-1">
-                           <span className="text-xs text-gray-500">{initialData.programs.find(p=>p.id===act.program_id)?.name}</span>
+                           <span className="text-xs text-gray-500">{p.find((pItem: any)=>pItem.id===act.program_id)?.name}</span>
                            <span className="text-[10px] text-indigo-600 font-medium">{act.target_date}</span>
                          </div>
                        </div>
@@ -333,7 +328,7 @@ export function CommandCentre() {
                       <li key={doc.id} className="p-3 flex items-center justify-between gap-3 group hover:bg-gray-50 transition-colors cursor-default">
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-gray-900 truncate">{doc.title}</p>
-                          <p className="text-xs text-gray-500 truncate">{initialData.programs.find(p=>p.id===doc.program_id)?.name || 'Unknown Program'}</p>
+                          <p className="text-xs text-gray-500 truncate">{p.find((pItem: any)=>pItem.id===doc.program_id)?.name || 'Unknown Program'}</p>
                         </div>
                         <Badge variant={isMissing ? 'danger' : 'warning'} className="flex-shrink-0 text-[10px]">
                           {doc.status}

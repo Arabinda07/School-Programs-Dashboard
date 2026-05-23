@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
+import { useSupabaseContext } from '../../context/SupabaseContext';
 import { Target, Search, Filter, TrendingUp, Users, CheckCircle, AlertTriangle, Presentation, BookOpen, AlertCircle } from 'lucide-react';
 
 export function AssessmentView() {
@@ -8,7 +8,7 @@ export function AssessmentView() {
   const [programFilter, setProgramFilter] = useState('All');
   const [classFilter, setClassFilter] = useState('All');
 
-  const { assessments, programs, classes } = initialData;
+  const { assessments, programs, classes } = useSupabaseContext();
 
   const enrichedAssessments = useMemo(() => {
     return assessments.map((asm: any) => {

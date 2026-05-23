@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
-import { initialData } from '../../data';
+import { useSupabaseContext } from '../../context/SupabaseContext';
 import { Download, FileText, FileSpreadsheet, BarChart3, AlertTriangle, Lightbulb, TrendingUp, Presentation, FolderGit2 } from 'lucide-react';
 
 export function ReportBuilder() {
-  const { programs, activities, classes, teachers, assessments, documentation, actions } = initialData;
+  const { programs, activities, classes, teachers, assessments, documentation, actions } = useSupabaseContext();
   const currentDate = new Date('2026-05-23');
 
   const {
@@ -135,13 +135,13 @@ export function ReportBuilder() {
           <p className="text-sm text-gray-500 mt-1">Management summaries and printable data views</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" className="text-xs bg-white">
+          <Button variant="outline" onClick={() => alert("Excel Export not implemented yet.")} className="text-xs bg-white">
              <FileSpreadsheet className="w-4 h-4 mr-2" /> Export Summary
           </Button>
-          <Button variant="outline" className="text-xs bg-white text-rose-700 border-rose-200 hover:bg-rose-50 hover:text-rose-800">
+          <Button variant="outline" onClick={() => alert("Docs Export not implemented yet.")} className="text-xs bg-white text-rose-700 border-rose-200 hover:bg-rose-50 hover:text-rose-800">
              <AlertTriangle className="w-4 h-4 mr-2" /> Pending Docs
           </Button>
-          <Button className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => alert("PDF Export not implemented yet.")}>
              <Download className="w-4 h-4 mr-2" /> Download Monthly PDF
           </Button>
         </div>
