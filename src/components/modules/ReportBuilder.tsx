@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { Download, FileText, FileSpreadsheet, BarChart3, AlertTriangle, Lightbulb, TrendingUp, Presentation, FolderGit2 } from 'lucide-react';
+import { Download, FileText, FileXls, ChartBar, Warning, Lightbulb, TrendUp, Presentation, Folder } from '@phosphor-icons/react';
 
 export function ReportBuilder() {
-  const { programs, activities, classes, teachers, assessments, documentation, actions } = useSupabaseContext();
+  const { programs, activities, classes, teachers, assessments, documentation, actions, showToast } = useSupabaseContext();
   const currentDate = new Date('2026-05-23');
 
   const {
@@ -131,17 +131,17 @@ export function ReportBuilder() {
     <div className="space-y-8 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Insights & Reports</h1>
-          <p className="text-sm text-gray-500 mt-1">Management summaries and printable data views</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Insights and reports</h1>
+          <p className="text-xs text-gray-500 mt-1">Exportable summaries, strategic observations, and initiative details.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={() => alert("Excel Export not implemented yet.")} className="text-xs bg-white">
-             <FileSpreadsheet className="w-4 h-4 mr-2" /> Export Summary
+          <Button variant="outline" onClick={() => showToast("Excel Export not implemented yet.", "info")} className="text-xs bg-white">
+             <FileXls className="w-4 h-4 mr-2" /> Export Summary
           </Button>
-          <Button variant="outline" onClick={() => alert("Docs Export not implemented yet.")} className="text-xs bg-white text-rose-700 border-rose-200 hover:bg-rose-50 hover:text-rose-800">
-             <AlertTriangle className="w-4 h-4 mr-2" /> Pending Docs
+          <Button variant="outline" onClick={() => showToast("Docs Export not implemented yet.", "info")} className="text-xs bg-white text-rose-700 border-rose-200 hover:bg-rose-50 hover:text-rose-800">
+             <Warning className="w-4 h-4 mr-2" /> Pending Docs
           </Button>
-          <Button className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => alert("PDF Export not implemented yet.")}>
+          <Button className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => showToast("PDF Export not implemented yet.", "info")}>
              <Download className="w-4 h-4 mr-2" /> Download Monthly PDF
           </Button>
         </div>
@@ -154,9 +154,9 @@ export function ReportBuilder() {
           {/* Key Insights */}
           <Card className="border-gray-200/60 shadow-sm bg-gradient-to-br from-indigo-50 to-white">
             <CardHeader className="py-4 border-b border-indigo-100/50">
-              <CardTitle className="text-base flex items-center space-x-2 text-indigo-900">
-                <Lightbulb className="w-4 h-4 text-indigo-600" />
-                <span>Automated Insights</span>
+              <CardTitle className="text-xs font-semibold flex items-center space-x-2 text-indigo-950">
+                <Lightbulb className="w-4 h-4 text-indigo-500" />
+                <span>Insights</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
@@ -164,9 +164,9 @@ export function ReportBuilder() {
                  {insightsList.map((insight, idx) => (
                    <li key={idx} className="flex items-start space-x-3 text-sm">
                      <span className="mt-0.5">
-                       {insight.type === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-500" />}
-                       {insight.type === 'info' && <FolderGit2 className="w-4 h-4 text-blue-500" />}
-                       {insight.type === 'success' && <TrendingUp className="w-4 h-4 text-emerald-500" />}
+                       {insight.type === 'warning' && <Warning className="w-4 h-4 text-amber-500" />}
+                       {insight.type === 'info' && <Folder className="w-4 h-4 text-blue-500" />}
+                       {insight.type === 'success' && <TrendUp className="w-4 h-4 text-emerald-500" />}
                      </span>
                      <span className="text-gray-700 leading-snug">{insight.text}</span>
                    </li>
@@ -178,16 +178,16 @@ export function ReportBuilder() {
           {/* Monthly KPI */}
           <Card className="border-gray-200/60 shadow-sm">
             <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-              <CardTitle className="text-base flex items-center space-x-2">
-                <BarChart3 className="w-4 h-4 text-gray-500" />
-                <span>Monthly Snapshot (May '26)</span>
+              <CardTitle className="text-xs font-semibold flex items-center space-x-2 text-gray-950">
+                <ChartBar className="w-4 h-4 text-gray-400" />
+                <span>Monthly snapshot (May 2026)</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
                <div className="grid grid-cols-2 divide-x divide-y divide-gray-100 border-b border-gray-100">
                  {summaryCards.map((card, idx) => (
                    <div key={idx} className="p-4 flex flex-col justify-center items-center text-center bg-white">
-                      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{card.label}</p>
+                      <p className="text-[10px] font-semibold text-gray-500">{card.label}</p>
                       <h4 className="text-2xl font-bold text-gray-900 my-1">{card.value}</h4>
                       <p className="text-[10px] text-gray-400 font-medium">{card.suffix}</p>
                    </div>
@@ -199,7 +199,7 @@ export function ReportBuilder() {
 
         {/* Right Col: Program Printouts */}
         <div className="md:col-span-2 space-y-4">
-          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-2">Program Printouts</h3>
+          <h3 className="text-xs font-semibold text-gray-900 mb-2">Program reports</h3>
           
           {programReports.map(prog => (
             <Card key={prog.id} className="border-gray-200/60 shadow-sm hover:shadow-md transition-shadow bg-white">
@@ -216,7 +216,7 @@ export function ReportBuilder() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                   {/* Progress */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Activity Setup</p>
+                    <p className="text-xs font-semibold text-gray-500">Activity summary</p>
                     <div className="mt-1 flex items-baseline space-x-2">
                       <span className="text-lg font-bold text-gray-900">{prog.completedActs} / {prog.totalActs}</span>
                     </div>
@@ -227,7 +227,7 @@ export function ReportBuilder() {
 
                   {/* Reach */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Students Reached</p>
+                    <p className="text-xs font-semibold text-gray-500">Students engaged</p>
                     <div className="mt-1 flex items-baseline space-x-2">
                       <span className="text-lg font-bold text-gray-900">{prog.reach}</span>
                       <span className="text-[10px] text-gray-500">out of {prog.target_student_count}</span>
@@ -236,11 +236,11 @@ export function ReportBuilder() {
 
                   {/* Documentation */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Documentation</p>
+                    <p className="text-xs font-semibold text-gray-500">Compliance</p>
                     <div className="mt-1 flex flex-col">
                       <span className="text-lg font-bold text-gray-900">{Math.round(prog.docComp)}%</span>
                       {prog.pendingDocs > 0 ? (
-                        <span className="text-[10px] font-medium text-rose-600 flex items-center mt-1"><AlertTriangle className="w-3 h-3 mr-1 inline"/> {prog.pendingDocs} pending</span>
+                        <span className="text-[10px] font-medium text-rose-600 flex items-center mt-1"><Warning className="w-3 h-3 mr-1 inline"/> {prog.pendingDocs} pending</span>
                       ) : (
                         <span className="text-[10px] font-medium text-emerald-600 mt-1">All approved</span>
                       )}
@@ -249,7 +249,7 @@ export function ReportBuilder() {
 
                   {/* Health/Actions */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Action Items</p>
+                    <p className="text-xs font-semibold text-gray-500">Action items</p>
                     <div className="mt-1 flex flex-col">
                       <span className="text-lg font-bold text-gray-900">{prog.openActions}</span>
                       <span className="text-[10px] text-gray-500 mt-1">open tasks</span>
@@ -259,12 +259,12 @@ export function ReportBuilder() {
 
                 <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Schedule</p>
-                    <p className="text-sm text-gray-700">{prog.start_date} to {prog.end_date}</p>
+                    <p className="text-xs text-gray-500 mb-1">Program schedule</p>
+                    <p className="text-xs font-medium text-gray-700">{prog.start_date} to {prog.end_date}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Target Strength</p>
-                    <p className="text-sm text-gray-700">{prog.target_student_count} students</p>
+                    <p className="text-xs text-gray-500 mb-1">Target cohort</p>
+                    <p className="text-xs font-medium text-gray-700">{prog.target_student_count} students</p>
                   </div>
                 </div>
               </CardContent>

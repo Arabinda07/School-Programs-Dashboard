@@ -6,6 +6,7 @@ import actionItemsData from './data/mock/action_items.json';
 import feedbackData from './data/mock/feedback.json';
 import classesData from './data/mock/classes.json';
 import teachersData from './data/mock/teachers.json';
+import notificationsData from './data/mock/notifications.json';
 
 export const initialData = {
   programs: programsData,
@@ -16,4 +17,5 @@ export const initialData = {
   feedback: feedbackData,
   classes: classesData,
   teachers: teachersData,
+  notifications: notificationsData,
 };

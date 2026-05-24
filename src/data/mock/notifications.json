@@ -1,0 +1,38 @@
+[
+  {
+    "id": "notif-001",
+    "title": "CBSE Compliance Evidence Pending",
+    "message": "Scientific Literacy Circle: Term 1 lesson reports and student signatures are overdue.",
+    "type": "warning",
+    "read": false,
+    "related_program_id": "PRG-002",
+    "created_at": "2026-05-23T08:00:00Z"
+  },
+  {
+    "id": "notif-002",
+    "title": "New Evidence Uploaded",
+    "message": "Creya STEM Facilitator uploaded Science Lab photos for Grade 7 Section B.",
+    "type": "success",
+    "read": false,
+    "related_program_id": "PRG-001",
+    "created_at": "2026-05-23T11:30:00Z"
+  },
+  {
+    "id": "notif-003",
+    "title": "Critical Blocker Reported",
+    "message": "Mindspark lab: 12 tablets failing to load diagnostic modules. Class teacher Arun Mukherjee requested IT replacement.",
+    "type": "error",
+    "read": false,
+    "related_program_id": "PRG-003",
+    "created_at": "2026-05-22T14:15:00Z"
+  },
+  {
+    "id": "notif-004",
+    "title": "Low Assessment Score Flagged",
+    "message": "Math Olympiad booster class average in Section 9A fell 12% below target remedial criteria.",
+    "type": "info",
+    "read": false,
+    "related_program_id": "PRG-004",
+    "created_at": "2026-05-22T09:00:00Z"
+  }
+]

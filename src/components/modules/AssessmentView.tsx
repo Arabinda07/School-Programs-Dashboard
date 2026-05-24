@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { Target, Search, Filter, TrendingUp, Users, CheckCircle, AlertTriangle, Presentation, BookOpen, AlertCircle } from 'lucide-react';
+import { Target, MagnifyingGlass, Funnel, TrendUp, Users, CheckCircle, Warning, Presentation, BookOpen, WarningCircle } from '@phosphor-icons/react';
 
 export function AssessmentView() {
   const [search, setSearch] = useState('');
@@ -62,8 +62,8 @@ export function AssessmentView() {
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Assessments Analysis</h1>
-          <p className="text-sm text-gray-500 mt-1">Diagnostic and post-program evaluation metrics</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Evaluation outcomes</h1>
+          <p className="text-xs text-gray-500 mt-1">Diagnostic and post-program evaluation trends, participation, and remediation tracking.</p>
         </div>
       </div>
 
@@ -107,7 +107,7 @@ export function AssessmentView() {
         <Card className="border-gray-200/60 shadow-sm col-span-2 md:col-span-1">
           <CardContent className="p-4 flex flex-col justify-center items-center text-center">
             <div className={`p-2 rounded-full mb-2 ${averageImprovement >= 0 ? 'bg-teal-50 text-teal-600' : 'bg-rose-50 text-rose-600'}`}>
-              <TrendingUp className="w-5 h-5" />
+              <TrendUp className="w-5 h-5" />
             </div>
             <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Improvement</p>
             <h4 className={`text-xl font-bold mt-0.5 ${averageImprovement >= 0 ? 'text-teal-600' : 'text-rose-600'}`}>
@@ -121,8 +121,8 @@ export function AssessmentView() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="border-gray-200/60 shadow-sm lg:col-span-2">
           <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-             <CardTitle className="text-base flex items-center space-x-2">
-                <span>Assessment Band Distributions</span>
+             <CardTitle className="text-xs flex items-center space-x-2 font-semibold text-gray-950">
+                <span>Assessment score distribution</span>
              </CardTitle>
           </CardHeader>
           <CardContent className="p-5">
@@ -161,9 +161,9 @@ export function AssessmentView() {
         <div className="space-y-6">
           <Card className="border-rose-200/60 shadow-sm bg-rose-50/30">
             <CardHeader className="py-3 px-4 border-b border-rose-100">
-              <CardTitle className="text-sm text-rose-900 flex items-center space-x-2">
-                 <AlertTriangle className="w-4 h-4 text-rose-600" />
-                 <span>Remediation Required</span>
+              <CardTitle className="text-xs text-rose-950 flex items-center space-x-2 font-semibold">
+                 <Warning className="w-4 h-4 text-rose-600" />
+                 <span>Remediation alerts</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -181,9 +181,9 @@ export function AssessmentView() {
 
           <Card className="border-amber-200/60 shadow-sm bg-amber-50/30">
             <CardHeader className="py-3 px-4 border-b border-amber-100">
-              <CardTitle className="text-sm text-amber-900 flex items-center space-x-2">
-                 <AlertCircle className="w-4 h-4 text-amber-600" />
-                 <span>Low Completion Alerts</span>
+              <CardTitle className="text-xs text-amber-950 flex items-center space-x-2 font-semibold">
+                 <WarningCircle className="w-4 h-4 text-amber-600" />
+                 <span>Turnout alerts</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -204,7 +204,7 @@ export function AssessmentView() {
       {/* Controls & Table */}
       <div className="flex flex-wrap gap-3 items-center pt-4">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
           <input 
             type="text"
             placeholder="Search assessments..."
@@ -214,7 +214,7 @@ export function AssessmentView() {
           />
         </div>
         <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
-          <Filter className="w-4 h-4 text-gray-500 ml-2" />
+          <Funnel className="w-4 h-4 text-gray-500 ml-2" />
           <select 
             className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer max-w-[150px] truncate"
             value={programFilter}
@@ -239,14 +239,14 @@ export function AssessmentView() {
       <Card className="border-gray-200/60 shadow-sm overflow-hidden mt-4">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+            <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
               <tr>
-                <th className="px-6 py-4 font-medium">Evaluation Name</th>
-                <th className="px-6 py-4 font-medium hidden md:table-cell">Context</th>
-                <th className="px-6 py-4 font-medium text-center">Participation</th>
-                <th className="px-6 py-4 font-medium text-center">Avg Score</th>
-                <th className="px-6 py-4 font-medium text-center">Growth</th>
-                <th className="px-6 py-4 font-medium text-right">Date</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Evaluation name</th>
+                <th className="px-6 py-2.5 font-medium hidden md:table-cell text-gray-500">Context</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Participation</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Average score</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Growth</th>
+                <th className="px-6 py-2.5 font-medium text-right text-gray-500">Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

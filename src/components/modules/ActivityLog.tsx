@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { CalendarDays, Search, Filter, AppWindow, Users } from 'lucide-react';
+import { Calendar, MagnifyingGlass, Funnel, AppWindow, Users } from '@phosphor-icons/react';
 
 export function ActivityLog() {
   const [activeTab, setActiveTab] = useState('All');
@@ -70,8 +70,8 @@ export function ActivityLog() {
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Activities & Logs</h1>
-          <p className="text-sm text-gray-500 mt-1">Granular session tracking for all classes</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Activity registry</h1>
+          <p className="text-xs text-gray-500 mt-1">Class sessions, attendance logs, and execution timeline.</p>
         </div>
         <div className="flex bg-gray-100 p-1 rounded-lg self-stretch md:self-auto">
            {['All', 'Upcoming', 'Completed', 'Delayed'].map(tab => (
@@ -93,8 +93,8 @@ export function ActivityLog() {
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start space-x-3">
              <div className="p-1"><AppWindow className="w-5 h-5 text-amber-600" /></div>
              <div>
-               <h4 className="text-sm font-semibold text-amber-900">Data Anomaly Alert</h4>
-               <p className="text-xs text-amber-700 mt-0.5">{ghostCount} "Completed" sessions have missing attendance or execution dates.</p>
+               <h4 className="text-xs font-semibold text-amber-900">Execution flags</h4>
+               <p className="text-xs text-amber-700 mt-0.5">{ghostCount} completed sessions are missing log details or attendance data.</p>
              </div>
           </div>
         )}
@@ -102,7 +102,7 @@ export function ActivityLog() {
 
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
           <input 
             type="text"
             placeholder="Search topics or facilitators..."
@@ -112,7 +112,7 @@ export function ActivityLog() {
           />
         </div>
         <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
-          <Filter className="w-4 h-4 text-gray-500 ml-2" />
+          <Funnel className="w-4 h-4 text-gray-500 ml-2" />
           <select 
             className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer max-w-[150px] truncate"
             value={programFilter}
@@ -138,20 +138,20 @@ export function ActivityLog() {
       <Card className="border-gray-200/60 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+            <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
               <tr>
-                <th className="px-6 py-4 font-medium">Session Topic</th>
-                <th className="px-6 py-4 font-medium">Program Context</th>
-                <th className="px-6 py-4 font-medium">Schedule / Date</th>
-                <th className="px-6 py-4 font-medium text-center">Class / Attendance</th>
-                <th className="px-6 py-4 font-medium text-center">Status</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Session topic</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Program context</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Schedule / date</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Class and attendance</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredActivities.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                     <CalendarDays className="w-8 h-8 mx-auto mb-3 text-gray-300" />
+                     <Calendar className="w-8 h-8 mx-auto mb-3 text-gray-300" />
                      <p>No activities found matching filters.</p>
                   </td>
                 </tr>

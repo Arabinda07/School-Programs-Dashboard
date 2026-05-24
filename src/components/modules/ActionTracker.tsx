@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { AlertTriangle, Search, Filter, AlertCircle, Clock, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Warning, MagnifyingGlass, Funnel, WarningCircle, Clock, CheckCircle, ShieldWarning } from '@phosphor-icons/react';
 
 export function ActionTracker() {
   const [activeTab, setActiveTab] = useState('All');
@@ -10,7 +10,7 @@ export function ActionTracker() {
   const [ownerFilter, setOwnerFilter] = useState('All');
   const [severityFilter, setSeverityFilter] = useState('All');
 
-  const { actions, programs, teachers, updateItem } = useSupabaseContext();
+  const { actions, programs, teachers, updateItem, showToast } = useSupabaseContext();
   const currentDate = new Date('2026-05-23');
 
   const handleMarkResolved = async (id: string) => {
@@ -19,8 +19,9 @@ export function ActionTracker() {
         status: 'Resolved', 
         resolved_date: new Date().toISOString().split('T')[0] 
       });
+      showToast('Action item resolved successfully!', 'success');
     } catch (e: any) {
-      alert('Failed to update action: ' + e.message);
+      showToast('Failed to update action: ' + e.message, 'error');
     }
   };
 
@@ -96,8 +97,8 @@ export function ActionTracker() {
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Action Tracker</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage risks, delays, and critical alerts</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Action tracker</h1>
+          <p className="text-xs text-gray-500 mt-1">Risk monitoring, program delays, and resolved action listings.</p>
         </div>
         <div className="flex bg-gray-100 p-1 rounded-lg self-stretch md:self-auto overflow-x-auto">
            {['All', 'Open', 'Overdue', 'Critical', 'Resolved'].map(tab => (
@@ -118,10 +119,10 @@ export function ActionTracker() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="border-gray-200/60 shadow-sm">
           <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><AlertCircle className="w-5 h-5" /></div>
+            <div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><WarningCircle className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Open</p>
-              <h4 className="text-lg font-bold text-gray-900">{openCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Open items</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{openCount}</h4>
             </div>
           </CardContent>
         </Card>
@@ -129,26 +130,26 @@ export function ActionTracker() {
           <CardContent className="p-4 flex items-center space-x-4">
             <div className="p-3 bg-rose-50 text-rose-600 rounded-lg"><Clock className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Overdue</p>
-              <h4 className="text-lg font-bold text-gray-900">{overdueCount}</h4>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border-gray-200/60 shadow-sm border-l-4 border-l-rose-500">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-rose-100 text-rose-700 rounded-lg"><AlertTriangle className="w-5 h-5" /></div>
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">High Pri</p>
-              <h4 className="text-lg font-bold text-gray-900">{highPriorityCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Overdue items</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{overdueCount}</h4>
             </div>
           </CardContent>
         </Card>
         <Card className="border-gray-200/60 shadow-sm">
           <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-gray-100 text-gray-600 rounded-lg"><ShieldAlert className="w-5 h-5" /></div>
+            <div className="p-3 bg-rose-100 text-rose-700 rounded-lg"><Warning className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Blocked</p>
-              <h4 className="text-lg font-bold text-gray-900">{blockedCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">High priority</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{highPriorityCount}</h4>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border-gray-200/60 shadow-sm">
+          <CardContent className="p-4 flex items-center space-x-4">
+            <div className="p-3 bg-gray-100 text-gray-600 rounded-lg"><ShieldWarning className="w-5 h-5" /></div>
+            <div>
+              <p className="text-[10px] font-semibold text-gray-500">Blocked tracker</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{blockedCount}</h4>
             </div>
           </CardContent>
         </Card>
@@ -156,7 +157,7 @@ export function ActionTracker() {
 
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
           <input 
             type="text"
             placeholder="Search action items..."
@@ -167,7 +168,7 @@ export function ActionTracker() {
         </div>
         
         <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
-          <Filter className="w-4 h-4 text-gray-500 ml-2" />
+          <Funnel className="w-4 h-4 text-gray-500 ml-2" />
           <select 
             className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer max-w-[150px] truncate"
             value={programFilter}
@@ -205,21 +206,21 @@ export function ActionTracker() {
       <Card className="border-gray-200/60 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+            <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
               <tr>
-                <th className="px-6 py-4 font-medium">Task & Context</th>
-                <th className="px-6 py-4 font-medium hidden md:table-cell">Owner</th>
-                <th className="px-6 py-4 font-medium text-center">Due Date</th>
-                <th className="px-6 py-4 font-medium text-center">Priority</th>
-                <th className="px-6 py-4 font-medium text-center">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Action</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Task and context</th>
+                <th className="px-6 py-2.5 font-medium hidden md:table-cell text-gray-500">Owner</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Due date</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Priority</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Status</th>
+                <th className="px-6 py-2.5 font-medium text-right text-gray-500">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredActions.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                     <CheckCircle2 className="w-8 h-8 mx-auto mb-3 text-gray-300" />
+                     <CheckCircle className="w-8 h-8 mx-auto mb-3 text-gray-300" />
                      <p>No action items found matching criteria.</p>
                   </td>
                 </tr>

@@ -1,12 +1,16 @@
 import React, { useMemo } from 'react';
 import { useSupabaseContext } from '../../context/SupabaseContext';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge } from '../ui';
-import { Activity, FolderGit2, AlertTriangle, AlertCircle, CalendarDays, CheckCircle2, TrendingUp, Users, FileCheck, Star } from 'lucide-react';
+import { Pulse, Folder, Warning, WarningCircle, Calendar, CheckCircle, TrendUp, Users, FileText, Star } from '@phosphor-icons/react';
 
 export function CommandCentre() {
   const currentDate = new Date('2026-05-23');
   
-  const { programs: p, activities: a, documentation: d, actions: ac, feedback: f, classes: c, teachers } = useSupabaseContext();
+  const { user, programs: p, activities: a, documentation: d, actions: ac, feedback: f, classes: c, teachers } = useSupabaseContext();
+
+  const userMetadata = user?.user_metadata || user?.raw_user_meta_data || {};
+  const displayName = userMetadata.full_name || user?.email?.split('@')[0] || 'User';
+  const roleName = userMetadata.role || 'Principal';
 
   const {
     activeProgramsCount,
@@ -104,13 +108,13 @@ export function CommandCentre() {
   }, [p, a, d, ac, f, c]);
 
   const kpiItems = [
-    { label: 'Active Programs', value: activeProgramsCount, icon: FolderGit2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { label: 'Activity Completion', value: `${Math.round(activityCompletion)}%`, icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: 'Active Programs', value: activeProgramsCount, icon: Folder, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+    { label: 'Activity Completion', value: `${Math.round(activityCompletion)}%`, icon: CheckCircle, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: 'Students Reached', value: `${studentReach} / ${totalStudents}`, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Classes Covered', value: `${classReachCount} / ${totalClasses}`, icon: TrendingUp, color: 'text-cyan-600', bg: 'bg-cyan-50' },
-    { label: 'Docs Approved', value: `${Math.round(docCompletion)}%`, icon: FileCheck, color: 'text-teal-600', bg: 'bg-teal-50' },
-    { label: 'Open Actions', value: openActionsCount, icon: AlertCircle, color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: 'Overdue Actions', value: overdueActionsCount, icon: AlertTriangle, color: 'text-rose-600', bg: 'bg-rose-50' },
+    { label: 'Classes Covered', value: `${classReachCount} / ${totalClasses}`, icon: TrendUp, color: 'text-cyan-600', bg: 'bg-cyan-50' },
+    { label: 'Docs Approved', value: `${Math.round(docCompletion)}%`, icon: FileText, color: 'text-teal-600', bg: 'bg-teal-50' },
+    { label: 'Open Actions', value: openActionsCount, icon: WarningCircle, color: 'text-amber-600', bg: 'bg-amber-50' },
+    { label: 'Overdue Actions', value: overdueActionsCount, icon: Warning, color: 'text-rose-600', bg: 'bg-rose-50' },
     { label: 'Avg Feedback', value: `${avgFeedback.toFixed(1)} / 5`, icon: Star, color: 'text-yellow-600', bg: 'bg-yellow-50' }
   ];
 
@@ -124,29 +128,89 @@ export function CommandCentre() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-12">
+    <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Command Centre Overview</h1>
-          <p className="text-sm text-gray-500 mt-1">Holistic view of all school enrichment & academic initiatives</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Welcome back, {displayName}</h1>
+          <p className="text-xs text-gray-500 mt-1">Primary dashboard for school initiatives and program compliance logs.</p>
         </div>
       </div>
 
-      {/* KPI Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {kpiItems.map((kpi, idx) => (
-          <Card key={idx} className="overflow-hidden border-gray-200/60 shadow-sm">
-            <CardContent className="p-4 flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${kpi.bg} ${kpi.color}`}>
-                <kpi.icon className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{kpi.label}</p>
-                <div className="text-lg font-bold text-gray-900 mt-0.5">{kpi.value}</div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Core Highlights */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Card 1: Active Programs */}
+        <Card className="border-gray-200/60 shadow-sm relative overflow-hidden">
+          <CardContent className="p-5 flex items-start justify-between">
+            <div>
+              <p className="text-xs font-medium text-gray-500 tracking-tight">Active initiatives</p>
+              <h2 className="text-2xl font-bold text-gray-900 mt-2 font-display">{activeProgramsCount}</h2>
+              <p className="text-[11px] text-gray-500 mt-1">Programs actively running</p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-indigo-50 text-indigo-600">
+              <Folder className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card 2: Activity Logs */}
+        <Card className="border-gray-200/60 shadow-sm relative overflow-hidden">
+          <CardContent className="p-5 flex items-start justify-between">
+            <div>
+              <p className="text-xs font-medium text-gray-500 tracking-tight">Session completion</p>
+              <h2 className="text-2xl font-bold text-gray-900 mt-2 font-display">{Math.round(activityCompletion)}%</h2>
+              <p className="text-[11px] text-gray-500 mt-1">Scheduled sessions completed</p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-emerald-50 text-emerald-600">
+              <CheckCircle className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card 3: Evidence Approved */}
+        <Card className="border-gray-200/60 shadow-sm relative overflow-hidden">
+          <CardContent className="p-5 flex items-start justify-between">
+            <div>
+              <p className="text-xs font-medium text-gray-500 tracking-tight">Evidence verified</p>
+              <h2 className="text-2xl font-bold text-gray-900 mt-2 font-display">{Math.round(docCompletion)}%</h2>
+              <p className="text-[11px] text-gray-500 mt-1">Approved compliance logs</p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-teal-50 text-teal-600">
+              <FileText className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card 4: Open Action Items */}
+        <Card className="border-gray-200/60 shadow-sm relative overflow-hidden">
+          <CardContent className="p-5 flex items-start justify-between">
+            <div>
+              <p className="text-xs font-medium text-gray-500 tracking-tight">Open action items</p>
+              <h2 className="text-2xl font-bold text-rose-600 mt-2 font-display">{openActionsCount}</h2>
+              <p className="text-[11px] text-gray-500 mt-1">{overdueActionsCount} currently overdue</p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-rose-50 text-rose-600">
+              <WarningCircle className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Cohort Coverage & Feedback Strip */}
+      <div className="bg-gray-100/60 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-gray-200/50 text-xs text-gray-600 px-6">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <span className="flex items-center gap-1.5 font-medium text-gray-700">
+            <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+            Cohort coverage: <span className="font-bold text-gray-950">{studentReach.toLocaleString()}</span> of {totalStudents.toLocaleString()} students engaged
+          </span>
+          <span className="flex items-center gap-1.5 font-medium text-gray-700">
+            <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
+            Class coverage: <span className="font-bold text-gray-950">{classReachCount}</span> of {totalClasses} classes covered
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 font-medium text-gray-700">
+          <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+          Student sentiment: <span className="font-bold text-gray-950">{avgFeedback.toFixed(1)} / 5.0</span> score from feedback reviews
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -154,25 +218,25 @@ export function CommandCentre() {
         <div className="xl:col-span-2 space-y-6">
           <Card className="border-gray-200/60 shadow-sm">
             <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-              <CardTitle className="text-base flex items-center space-x-2">
-                <Activity className="w-4 h-4 text-gray-500" />
-                <span>Program Health Summary</span>
+              <CardTitle className="text-sm font-semibold flex items-center space-x-2 text-gray-950">
+                <Pulse className="w-4 h-4 text-gray-400" />
+                <span>Program compliance status</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
-                  <thead className="bg-gray-50 text-gray-500 text-xs border-b border-gray-100">
+                  <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
                     <tr>
-                      <th className="px-4 py-3 font-medium">Program</th>
-                      <th className="px-4 py-3 font-medium hidden sm:table-cell">Category</th>
-                      <th className="px-4 py-3 font-medium text-center">Activities</th>
-                      <th className="px-4 py-3 font-medium text-center">Docs</th>
-                      <th className="px-4 py-3 font-medium text-center">Actions</th>
-                      <th className="px-4 py-3 font-medium text-right">Health</th>
+                      <th className="px-4 py-2.5 font-medium text-gray-500">Program name</th>
+                      <th className="px-4 py-2.5 font-medium hidden sm:table-cell text-gray-500">Category</th>
+                      <th className="px-4 py-2.5 font-medium text-center text-gray-500">Progress</th>
+                      <th className="px-4 py-2.5 font-medium text-center text-gray-500">Verification</th>
+                      <th className="px-4 py-2.5 font-medium text-center text-gray-500">Actions</th>
+                      <th className="px-4 py-2.5 font-medium text-right text-gray-500">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-gray-100/60">
                     {programHealth.map(prog => (
                       <tr key={prog.id} className="hover:bg-gray-50/50 transition-colors">
                         <td className="px-4 py-3">
@@ -213,14 +277,14 @@ export function CommandCentre() {
           </Card>
 
           {/* Action Focus */}
-          <Card className="border-gray-200/60 shadow-sm border-l-4 border-l-rose-500">
+          <Card className="border-gray-200/60 shadow-sm">
             <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
               <div className="flex justify-between items-center">
-                <CardTitle className="text-base flex items-center space-x-2 text-rose-900">
-                  <AlertTriangle className="w-4 h-4 text-rose-600" />
-                  <span>Critical Action Focus</span>
+                <CardTitle className="text-sm font-semibold flex items-center space-x-2 text-gray-950 border-none">
+                  <Warning className="w-4 h-4 text-rose-600" />
+                  <span>Action requests</span>
                 </CardTitle>
-                <div className="text-xs text-gray-500">{topActions.length} items require attention</div>
+                <div className="text-xs text-gray-500">{topActions.length} pending items</div>
               </div>
             </CardHeader>
             <CardContent className="p-0">
@@ -262,9 +326,9 @@ export function CommandCentre() {
           
           <Card className="border-gray-200/60 shadow-sm">
             <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-              <CardTitle className="text-base flex items-center space-x-2">
-                <CalendarDays className="w-4 h-4 text-gray-500" />
-                <span>Activities Pulse</span>
+              <CardTitle className="text-sm font-semibold flex items-center space-x-2 text-gray-950">
+                <Calendar className="w-4 h-4 text-gray-400" />
+                <span>Activities schedule</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-6">
@@ -315,9 +379,9 @@ export function CommandCentre() {
 
           <Card className="border-gray-200/60 shadow-sm">
             <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-              <CardTitle className="text-base flex items-center space-x-2">
-                <FileCheck className="w-4 h-4 text-gray-500" />
-                <span>Evidence & Compliance</span>
+              <CardTitle className="text-sm font-semibold flex items-center space-x-2 text-gray-950">
+                <FileText className="w-4 h-4 text-gray-400" />
+                <span>Document tracking</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">

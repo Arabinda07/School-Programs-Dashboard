@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, Button } from './ui';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle, WarningCircle } from '@phosphor-icons/react';
 
 export function AuthScreen() {
   const [email, setEmail] = useState('');
@@ -65,13 +65,13 @@ export function AuthScreen() {
         <CardContent>
           {signupSuccess && isLogin && (
             <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm p-3 rounded-md flex items-start">
-               <CheckCircle2 className="w-5 h-5 mr-2 flex-shrink-0 text-emerald-600" />
+               <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 text-emerald-600" />
                <div>Your account has been created. Please check your email and verify your address before logging in.</div>
             </div>
           )}
           {errorMsg && (
             <div className="mb-4 bg-rose-50 border border-rose-200 text-rose-800 text-sm p-3 rounded-md flex items-start">
-               <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 text-rose-600" />
+               <WarningCircle className="w-5 h-5 mr-2 flex-shrink-0 text-rose-600" />
                <div>{errorMsg}</div>
             </div>
           )}

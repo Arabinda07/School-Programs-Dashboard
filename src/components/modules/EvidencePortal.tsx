@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { EmptyState, Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { FileCheck, Search, Filter, AlertCircle, Clock, FileX, CheckCircle, Trash2 } from 'lucide-react';
+import { FileText, MagnifyingGlass, Funnel, WarningCircle, Clock, CheckCircle, Trash } from '@phosphor-icons/react';
 import { supabase } from '../../lib/supabase';
 
 export function EvidencePortal() {
@@ -15,7 +15,7 @@ export function EvidencePortal() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { documentation, programs, activities, updateItem, user, useFallback } = useSupabaseContext();
+  const { documentation, programs, activities, updateItem, user, useFallback, showToast } = useSupabaseContext();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -27,7 +27,7 @@ export function EvidencePortal() {
     e.preventDefault();
     if (!uploadDocId) return;
     if (!file && !useFallback) {
-      alert("Please select a file to upload.");
+      showToast("Please select a file to upload.", 'error');
       return;
     }
     
@@ -58,8 +58,9 @@ export function EvidencePortal() {
       await updateItem('documentation', uploadDocId, updates);
       setUploadDocId(null);
       setFile(null);
+      showToast('Evidence uploaded successfully and queued for review.', 'success');
     } catch (err: any) {
-      alert("Failed to upload: " + err.message);
+      showToast("Failed to upload: " + err.message, 'error');
     } finally {
       setUploading(false);
     }
@@ -67,7 +68,7 @@ export function EvidencePortal() {
 
   const handleView = async (doc: any) => {
     if (!doc.file_path) {
-      alert("No file path found for this document! Local mockup only.");
+      showToast("No file path found for this document! Local mockup only.", 'warning');
       return;
     }
     try {
@@ -80,7 +81,7 @@ export function EvidencePortal() {
         window.open(data.signedUrl, '_blank');
       }
     } catch (err: any) {
-      alert("Failed to open file: " + err.message);
+      showToast("Failed to open file: " + err.message, 'error');
     }
   };
 
@@ -101,8 +102,9 @@ export function EvidencePortal() {
         uploaded_date: null,
         file_path: null
       });
+      showToast('Evidence removed.', 'info');
     } catch (err: any) {
-      alert("Failed to delete: " + err.message);
+      showToast("Failed to delete: " + err.message, 'error');
     }
   };
 
@@ -160,8 +162,8 @@ export function EvidencePortal() {
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-display">Evidence Portal</h1>
-          <p className="text-sm text-gray-500 mt-1">Audit trail and compliance documentation</p>
+          <h1 className="text-xl font-bold text-gray-900 font-display">Document verification</h1>
+          <p className="text-xs text-gray-500 mt-1">Audit logs, compliance files, and program evidence uploads.</p>
         </div>
       </div>
 
@@ -169,10 +171,10 @@ export function EvidencePortal() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card className="border-gray-200/60 shadow-sm">
           <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-gray-100 text-gray-600 rounded-lg"><FileCheck className="w-5 h-5" /></div>
+            <div className="p-3 bg-gray-100 text-gray-600 rounded-lg"><FileText className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Required</p>
-              <h4 className="text-lg font-bold text-gray-900">{totalRequired}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Required</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{totalRequired}</h4>
             </div>
           </CardContent>
         </Card>
@@ -180,8 +182,8 @@ export function EvidencePortal() {
           <CardContent className="p-4 flex items-center space-x-4">
             <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Uploaded</p>
-              <h4 className="text-lg font-bold text-gray-900">{uploadedCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Uploaded</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{uploadedCount}</h4>
             </div>
           </CardContent>
         </Card>
@@ -189,8 +191,8 @@ export function EvidencePortal() {
           <CardContent className="p-4 flex items-center space-x-4">
             <div className="p-3 bg-teal-50 text-teal-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Approved</p>
-              <h4 className="text-lg font-bold text-gray-900">{Math.round(completionPercent)}%</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Approved</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{Math.round(completionPercent)}%</h4>
             </div>
           </CardContent>
         </Card>
@@ -198,17 +200,17 @@ export function EvidencePortal() {
           <CardContent className="p-4 flex items-center space-x-4">
             <div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><Clock className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Pending</p>
-              <h4 className="text-lg font-bold text-gray-900">{pendingCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Pending</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{pendingCount}</h4>
             </div>
           </CardContent>
         </Card>
         <Card className="border-gray-200/60 shadow-sm">
           <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-rose-50 text-rose-600 rounded-lg"><FileX className="w-5 h-5" /></div>
+            <div className="p-3 bg-rose-50 text-rose-600 rounded-lg"><FileText className="w-5 h-5" /></div>
             <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Missing</p>
-              <h4 className="text-lg font-bold text-gray-900">{missingCount}</h4>
+              <p className="text-[10px] font-semibold text-gray-500">Missing</p>
+              <h4 className="text-base font-bold text-gray-900 mt-0.5">{missingCount}</h4>
             </div>
           </CardContent>
         </Card>
@@ -216,7 +218,7 @@ export function EvidencePortal() {
 
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
           <input 
             type="text"
             placeholder="Search documents..."
@@ -226,7 +228,7 @@ export function EvidencePortal() {
           />
         </div>
         <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
-          <Filter className="w-4 h-4 text-gray-500 ml-2" />
+          <Funnel className="w-4 h-4 text-gray-500 ml-2" />
           <select 
             className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer max-w-[150px] truncate"
             value={programFilter}
@@ -259,21 +261,21 @@ export function EvidencePortal() {
       <Card className="border-gray-200/60 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+            <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
               <tr>
-                <th className="px-6 py-4 font-medium">Document Title</th>
-                <th className="px-6 py-4 font-medium hidden md:table-cell">Context</th>
-                <th className="px-6 py-4 font-medium text-center">Type</th>
-                <th className="px-6 py-4 font-medium text-center">Due / Uploaded</th>
-                <th className="px-6 py-4 font-medium text-center">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Action</th>
+                <th className="px-6 py-2.5 font-medium text-gray-500">Document title</th>
+                <th className="px-6 py-2.5 font-medium hidden md:table-cell text-gray-500">Context</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Type</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Due and uploaded</th>
+                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Status</th>
+                <th className="px-6 py-2.5 font-medium text-right text-gray-500">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredDocs.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                     <FileCheck className="w-8 h-8 mx-auto mb-3 text-gray-300" />
+                     <FileText className="w-8 h-8 mx-auto mb-3 text-gray-300" />
                      <p>No documents found matching filters.</p>
                   </td>
                 </tr>
@@ -314,17 +316,59 @@ export function EvidencePortal() {
                              {(doc.file_path || useFallback) && !isMissing && (
                                <Button variant="ghost" onClick={() => handleView(doc)} className="text-xs px-2 py-1 h-auto text-indigo-600 hover:text-indigo-800 focus:ring-0">View</Button>
                              )}
+                             {isPending && (
+                               <>
+                                 <Button 
+                                   variant="outline" 
+                                   onClick={async () => {
+                                     try {
+                                       await updateItem('documentation', doc.id, { status: 'Approved' });
+                                       showToast('Evidence approved successfully.', 'success');
+                                     } catch (err: any) {
+                                       showToast('Failed to approve evidence: ' + err.message, 'error');
+                                     }
+                                   }} 
+                                   className="text-xs px-2.5 py-1 h-auto text-emerald-600 border-emerald-200 hover:bg-emerald-50/70 hover:text-emerald-700"
+                                 >
+                                   Approve
+                                 </Button>
+                                 <Button 
+                                   variant="outline" 
+                                   onClick={async () => {
+                                     try {
+                                       await updateItem('documentation', doc.id, { status: 'Rejected' });
+                                       showToast('Evidence rejected.', 'warning');
+                                     } catch (err: any) {
+                                       showToast('Failed to reject evidence: ' + err.message, 'error');
+                                     }
+                                   }} 
+                                   className="text-xs px-2.5 py-1 h-auto text-rose-600 border-rose-200 hover:bg-rose-50/70 hover:text-rose-700"
+                                 >
+                                   Reject
+                                 </Button>
+                               </>
+                             )}
                              <Button onClick={() => setUploadDocId(doc.id)} variant="outline" className="text-xs px-2 py-1 h-auto">
                                {(doc.file_path || useFallback) && !isMissing ? 'Replace' : 'Upload'}
                              </Button>
                              {(doc.file_path || useFallback) && !isMissing && (
-                               <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash2 className="w-4 h-4"/></Button>
+                               <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash className="w-4 h-4"/></Button>
                              )}
                           </div>
                         ) : (
                           <div className="flex items-center justify-end space-x-2">
                              <Button variant="ghost" onClick={() => handleView(doc)} className="text-xs px-2 py-1 h-auto text-indigo-600 hover:text-indigo-800 focus:ring-0">View</Button>
-                             <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash2 className="w-4 h-4"/></Button>
+                             <Button variant="outline" onClick={async () => {
+                               try {
+                                 await updateItem('documentation', doc.id, { status: 'Pending' });
+                                 showToast('Evidence status set back to Pending Review.', 'info');
+                               } catch (err: any) {
+                                 showToast('Failed to transition evidence status: ' + err.message, 'error');
+                               }
+                             }} className="text-xs px-2 py-1 h-auto text-gray-500 border-gray-200 hover:bg-gray-50">
+                               Revert to Pending
+                             </Button>
+                             <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash className="w-4 h-4"/></Button>
                           </div>
                         )}
                       </td>
@@ -353,7 +397,7 @@ export function EvidencePortal() {
                   className="hidden" 
                   onChange={handleFileChange}
                 />
-                <FileCheck className="w-8 h-8 mx-auto mb-2 text-indigo-400" />
+                <FileText className="w-8 h-8 mx-auto mb-2 text-indigo-400" />
                 <p className="text-sm font-medium text-gray-700">
                    {file ? file.name : "Click to browse or drag file here"}
                 </p>
