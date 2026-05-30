@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, Button } from './ui';
-import { CheckCircle, WarningCircle } from '@phosphor-icons/react';
+import { CheckCircle, WarningCircle, ArrowLeft } from '@phosphor-icons/react';
 
-export function AuthScreen() {
+interface AuthScreenProps {
+  onBack?: () => void;
+}
+
+export function AuthScreen({ onBack }: AuthScreenProps) {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [role, setRole] = useState('Teacher');
@@ -55,8 +59,16 @@ export function AuthScreen() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
+      <Card className="w-full max-w-md relative">
+        {onBack && (
+          <button 
+            onClick={onBack}
+            className="absolute top-4 left-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        )}
+        <CardHeader className="pt-8">
           <CardTitle className="text-xl text-center text-gray-900">{isLogin ? 'Command Centre Login' : 'Create Account'}</CardTitle>
           <p className="text-center text-sm text-gray-500 mt-1">
              Authenticate to securely sync data with Supabase and enable file uploads.

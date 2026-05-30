@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '../ui';
 import { useSupabaseContext } from '../../context/SupabaseContext';
-import { Target, MagnifyingGlass, Funnel, TrendUp, Users, CheckCircle, Warning, Presentation, BookOpen, WarningCircle } from '@phosphor-icons/react';
+import { Target, MagnifyingGlass, Funnel, TrendUp, Users, CheckCircle, Warning, Presentation, BookOpen, WarningCircle, Stack } from '@phosphor-icons/react';
 
 export function AssessmentView() {
   const [search, setSearch] = useState('');
   const [programFilter, setProgramFilter] = useState('All');
   const [classFilter, setClassFilter] = useState('All');
+  const [groupBy, setGroupBy] = useState<'None' | 'Program' | 'Class'>('None');
 
   const { assessments, programs, classes } = useSupabaseContext();
 
@@ -39,6 +40,17 @@ export function AssessmentView() {
       return matchSearch && matchProgram && matchClass;
     });
   }, [enrichedAssessments, search, programFilter, classFilter]);
+
+  const groupedAssessments = useMemo(() => {
+    if (groupBy === 'None') return { 'All Assessments': filteredAssessments };
+    const groups: Record<string, any[]> = {};
+    filteredAssessments.forEach((asm: any) => {
+      const key = groupBy === 'Program' ? asm.programName : `Class ${asm.className}`;
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(asm);
+    });
+    return groups;
+  }, [filteredAssessments, groupBy]);
 
   // KPIs
   const totalConducted = enrichedAssessments.length;
@@ -234,6 +246,18 @@ export function AssessmentView() {
             {classes.map((c: any) => <option key={c.id} value={c.id}>{c.grade_level}{c.section}</option>)}
           </select>
         </div>
+        <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
+          <Stack className="w-4 h-4 text-gray-500 ml-2" />
+          <select 
+            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer"
+            value={groupBy}
+            onChange={e => setGroupBy(e.target.value as 'None' | 'Program' | 'Class')}
+          >
+            <option value="None">No Grouping</option>
+            <option value="Program">Group by Program</option>
+            <option value="Class">Group by Class</option>
+          </select>
+        </div>
       </div>
 
       <Card className="border-gray-200/60 shadow-sm overflow-hidden mt-4">
@@ -257,8 +281,18 @@ export function AssessmentView() {
                      <p>No assessment records found.</p>
                   </td>
                 </tr>
-              ) : (
-                filteredAssessments.map((asm: any) => (
+              ) : Object.entries(groupedAssessments).map(([groupName, groupAsms]) => {
+                const asms = groupAsms as any[];
+                return (
+                <React.Fragment key={groupName}>
+                  {groupBy !== 'None' && (
+                    <tr className="bg-gray-50/80">
+                      <td colSpan={6} className="px-6 py-3 font-semibold text-gray-700 text-xs uppercase tracking-wider">
+                        {groupName} ({asms.length})
+                      </td>
+                    </tr>
+                  )}
+                  {asms.map((asm: any) => (
                   <tr key={asm.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-gray-900">{asm.name}</div>
@@ -293,8 +327,9 @@ export function AssessmentView() {
                        <span className="text-xs text-gray-600">{asm.conducted_date}</span>
                     </td>
                   </tr>
-                ))
-              )}
+                  ))}
+                </React.Fragment>
+              )})}
             </tbody>
           </table>
         </div>

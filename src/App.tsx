@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSupabaseContext } from './context/SupabaseContext';
 import { 
   Gauge, 
@@ -27,6 +27,8 @@ import { ActionTracker } from './components/modules/ActionTracker';
 import { ReportBuilder } from './components/modules/ReportBuilder';
 import { AIAdvisor } from './components/modules/AIAdvisor';
 import { AuthScreen } from './components/AuthScreen';
+import { LandingPage } from './components/LandingPage';
+import { ArchitectureSpecs } from './components/ArchitectureSpecs';
 import { cn } from './lib/utils';
 import { Badge, Button } from './components/ui';
 import { supabase } from './lib/supabase';
@@ -44,12 +46,31 @@ const AlertIcon = ({ type }: { type: string }) => {
 };
 
 export default function App() {
+  const [view, setView] = useState<'landing' | 'auth' | 'app' | 'specs'>('landing');
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const contextData = useSupabaseContext();
   const { user, seedData, showToast } = contextData;
   const data = contextData; // for compatibility with subcomponents
+
+  useEffect(() => {
+    if (user && view !== 'app') {
+      setView('app');
+    }
+  }, [user, view]);
+
+  if (view === 'landing' && !user) {
+    return <LandingPage onGetStarted={() => setView('auth')} onViewSpecs={() => setView('specs')} />;
+  }
+
+  if (view === 'specs' && !user) {
+    return <ArchitectureSpecs onBack={() => setView('landing')} />;
+  }
+
+  if (view === 'auth' && !user) {
+    return <AuthScreen onBack={() => setView('landing')} />;
+  }
 
   if (!user) {
     return <AuthScreen />;
