@@ -55,26 +55,61 @@ export default function App() {
   const data = contextData; // for compatibility with subcomponents
 
   useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      
+      if (path === '/architecture' || hash === '#architecture') {
+        if (hash === '#architecture') {
+          // Clean up the hash for the user
+          window.history.replaceState({}, '', '/architecture');
+        }
+        setView('specs');
+      } else if (path === '/auth') {
+        setView('auth');
+      } else if (path === '/dashboard') {
+        setView('app');
+      } else {
+        setView('landing');
+      }
+    };
+
+    handleLocationChange();
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  const navigate = (newView: 'landing' | 'auth' | 'app' | 'specs') => {
+    setView(newView);
+    let path = '/';
+    if (newView === 'specs') path = '/architecture';
+    if (newView === 'auth') path = '/auth';
+    if (newView === 'app') path = '/dashboard';
+    window.history.pushState({}, '', path);
+  };
+
+  useEffect(() => {
     if (user && view !== 'app') {
-      setView('app');
+      navigate('app');
     }
   }, [user, view]);
 
   if (view === 'landing' && !user) {
-    return <LandingPage onGetStarted={() => setView('auth')} onViewSpecs={() => setView('specs')} />;
+    return <LandingPage onGetStarted={() => navigate('auth')} onViewSpecs={() => navigate('specs')} />;
   }
 
   if (view === 'specs' && !user) {
-    return <ArchitectureSpecs onBack={() => setView('landing')} />;
+    return <ArchitectureSpecs onBack={() => navigate('landing')} />;
   }
 
   if (view === 'auth' && !user) {
-    return <AuthScreen onBack={() => setView('landing')} />;
+    return <AuthScreen onBack={() => navigate('landing')} />;
   }
 
   if (!user) {
-    return <AuthScreen />;
+    return <AuthScreen onBack={() => navigate('landing')} />;
   }
+
 
   const tabs = [
     { id: 'overview', name: 'Command Centre', icon: Gauge },
