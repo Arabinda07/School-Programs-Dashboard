@@ -1,14 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { initialData } from '../data';
-import { CheckCircle, Warning, WarningCircle, Info, X } from '@phosphor-icons/react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useToast } from './ToastContext';
 
-export interface Toast {
-  id: string;
-  message: string;
-  type: 'success' | 'info' | 'warning' | 'error';
-}
 
 interface AppContextType {
   user: any;
@@ -53,16 +47,9 @@ export const SupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
   const [loading, setLoading] = useState(true);
   const [useFallback, setUseFallback] = useState(false);
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const { showToast } = useToast();
 
-  const showToast = (message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info') => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts(prev => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4000);
-  };
-
+  
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -211,73 +198,9 @@ export const SupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const getToastStyles = (type: 'success' | 'info' | 'warning' | 'error') => {
-    switch (type) {
-      case 'success':
-        return {
-          bg: 'bg-emerald-50 border-emerald-100/80',
-          iconColor: 'text-emerald-600',
-          Icon: CheckCircle,
-        };
-      case 'error':
-        return {
-          bg: 'bg-rose-50 border-rose-100/80',
-          iconColor: 'text-rose-600',
-          Icon: WarningOctagon,
-        };
-      case 'warning':
-        return {
-          bg: 'bg-amber-50 border-amber-100/80',
-          iconColor: 'text-amber-600',
-          Icon: Warning,
-        };
-      default:
-        return {
-          bg: 'bg-indigo-50 border-indigo-100/80',
-          iconColor: 'text-indigo-600',
-          Icon: Info,
-        };
-    }
-  };
-
-  // Define WarningOctagon to map gracefully if needed, or fallback
-  const WarningOctagon = WarningCircle;
-
   return (
     <SupabaseContext.Provider value={{ user, ...data, loading, useFallback, refreshData, updateItem, insertItem, seedData, showToast }}>
       {children}
-      
-      {/* Dynamic Elegant Toast Portal Overlay */}
-      <div className="fixed bottom-6 right-6 z-150 flex flex-col gap-3 max-w-sm pointer-events-none">
-        <AnimatePresence>
-          {toasts.map(toast => {
-            const { bg, iconColor, Icon } = getToastStyles(toast.type);
-            return (
-              <motion.div
-                key={toast.id}
-                initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
-                layout
-                className={`pointer-events-auto flex items-start gap-3 ${bg} border rounded-xl p-4 shadow-xl min-w-[280px] max-w-md bg-white`}
-              >
-                <div className={`p-1.5 rounded-lg bg-white shadow-sm flex-shrink-0 ${iconColor}`}>
-                  <Icon size={18} weight="fill" />
-                </div>
-                <div className="flex-1 text-sm text-gray-700 font-medium py-1">
-                  {toast.message}
-                </div>
-                <button
-                  onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-                  className="p-1 text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 rounded-lg hover:bg-gray-100/60"
-                >
-                  <X size={14} />
-                </button>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
     </SupabaseContext.Provider>
   );
 };

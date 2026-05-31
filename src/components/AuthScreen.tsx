@@ -58,20 +58,20 @@ export function AuthScreen({ onBack }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md relative">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md relative border-slate-200 shadow-none bg-white">
         {onBack && (
           <button 
             onClick={onBack}
-            className="absolute top-4 left-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+            className="absolute top-4 left-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
         )}
         <CardHeader className="pt-8">
-          <CardTitle className="text-xl text-center text-gray-900">{isLogin ? 'Command Centre Login' : 'Create Account'}</CardTitle>
-          <p className="text-center text-sm text-gray-500 mt-1">
-             Authenticate to securely sync data with Supabase and enable file uploads.
+          <CardTitle className="text-xl text-center text-slate-900 font-sans tracking-tight">{isLogin ? 'Command Centre Login' : 'Create Account'}</CardTitle>
+          <p className="text-center text-sm text-slate-500 mt-1 font-light">
+             Authenticate to access the program tracking and operations portal.
           </p>
         </CardHeader>
         <CardContent>
@@ -92,12 +92,12 @@ export function AuthScreen({ onBack }: AuthScreenProps) {
             {!isLogin && (
               <>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
-                  <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} required className="w-full border border-gray-200 rounded-md p-2 text-sm" placeholder="John Doe" />
+                  <label className="block text-xs font-medium text-slate-700 mb-1">Full Name</label>
+                  <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} required className="w-full border border-slate-200 rounded-md p-2 text-sm focus:outline-none focus:border-slate-400 transition-colors" placeholder="John Doe" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Role</label>
-                  <select value={role} onChange={e => setRole(e.target.value)} className="w-full border border-gray-200 rounded-md p-2 text-sm bg-white">
+                  <label className="block text-xs font-medium text-slate-700 mb-1">Role</label>
+                  <select value={role} onChange={e => setRole(e.target.value)} className="w-full border border-slate-200 rounded-md p-2 text-sm bg-white focus:outline-none focus:border-slate-400 transition-colors">
                     <option value="Teacher">Teacher</option>
                     <option value="Principal">Principal</option>
                     <option value="Academic Coordinator">Academic Coordinator</option>
@@ -107,17 +107,17 @@ export function AuthScreen({ onBack }: AuthScreenProps) {
               </>
             )}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="w-full border border-gray-200 rounded-md p-2 text-sm" />
+              <label className="block text-xs font-medium text-slate-700 mb-1">Email</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="w-full border border-slate-200 rounded-md p-2 text-sm focus:outline-none focus:border-slate-400 transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Password</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className="w-full border border-gray-200 rounded-md p-2 text-sm" />
+              <label className="block text-xs font-medium text-slate-700 mb-1">Password</label>
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className="w-full border border-slate-200 rounded-md p-2 text-sm focus:outline-none focus:border-slate-400 transition-colors" />
             </div>
-            <Button className="w-full" type="submit" disabled={loading}>
+            <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white shadow-none" type="submit" disabled={loading}>
               {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Sign Up')}
             </Button>
-            <div className="text-center text-xs text-gray-500 space-y-2 mt-4">
+            <div className="text-center text-xs text-slate-500 space-y-2 mt-4 font-medium">
               <button type="button" onClick={() => {
                  setIsLogin(!isLogin);
                  setSignupSuccess(false);
@@ -125,7 +125,7 @@ export function AuthScreen({ onBack }: AuthScreenProps) {
                  setPassword('');
                  setFullName('');
                  setRole('Teacher');
-              }} className="text-indigo-600 hover:underline block w-full">
+              }} className="text-slate-900 hover:underline block w-full underline-offset-4">
                 {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
               </button>
             </div>

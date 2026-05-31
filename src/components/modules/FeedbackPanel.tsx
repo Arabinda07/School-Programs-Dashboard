@@ -85,7 +85,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
       case 3: return { text: 'Satisfactory Performance', color: 'text-blue-600 bg-blue-50 border-blue-100' };
       case 4: return { text: 'Highly Satisfactory', color: 'text-indigo-600 bg-indigo-50 border-indigo-100' };
       case 5: return { text: 'Outstanding Program', color: 'text-emerald-600 bg-emerald-50 border-emerald-100' };
-      default: return { text: 'Unrated', color: 'text-gray-500 bg-gray-50 border-gray-100' };
+      default: return { text: 'Unrated', color: 'text-slate-500 bg-slate-50 border-slate-100' };
     }
   };
 
@@ -173,17 +173,17 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
         
         {/* Dynamic Aggregation Card */}
-        <div className="md:col-span-4 bg-gray-50 border border-gray-200/60 rounded-xl p-5 flex flex-col justify-between text-center relative overflow-hidden">
+        <div className="md:col-span-4 bg-slate-50 border border-slate-200/60 rounded-xl p-5 flex flex-col justify-between text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 transform translate-x-4 -translate-y-4 opacity-5 pointer-events-none">
-            <ChatText className="w-32 h-32 text-gray-900" />
+            <ChatText className="w-32 h-32 text-slate-900" />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-mono">Sentiment average</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">Sentiment average</span>
             <div className="mt-2.5 flex items-baseline justify-center gap-1">
-              <span className="text-4xl font-extrabold text-gray-900 font-display">
+              <span className="text-4xl font-extrabold text-slate-900 font-sans">
                 {ratingDetails.avg > 0 ? ratingDetails.avg.toFixed(1) : '–'}
               </span>
-              <span className="text-sm font-semibold text-gray-400">/ 5.0</span>
+              <span className="text-sm font-semibold text-slate-400">/ 5.0</span>
             </div>
             
             {/* Simple Stars display */}
@@ -194,38 +194,38 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                   <Star 
                     key={starIdx} 
                     weight={filled ? 'fill' : 'regular'} 
-                    className={`w-4 class h-4 ${filled ? 'text-amber-500' : 'text-gray-300'}`} 
+                    className={`w-4 class h-4 ${filled ? 'text-amber-500' : 'text-slate-300'}`} 
                   />
                 );
               })}
             </div>
           </div>
           
-          <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500 font-medium">
-            Based on <span className="text-gray-900 font-semibold">{ratingDetails.count}</span> evaluations submitted directly
+          <div className="mt-4 pt-4 border-t border-slate-200 text-xs text-slate-500 font-medium">
+            Based on <span className="text-slate-900 font-semibold">{ratingDetails.count}</span> evaluations submitted directly
           </div>
         </div>
 
         {/* Breakdown bar graph */}
-        <div className="md:col-span-8 bg-white border border-gray-200/60 rounded-xl p-5">
-          <h4 className="text-xs font-semibold text-gray-900 mb-3 ml-0.5">Rating weight distribution</h4>
+        <div className="md:col-span-8 bg-white border border-slate-200/60 rounded-xl p-5">
+          <h4 className="text-xs font-semibold text-slate-900 mb-3 ml-0.5">Rating weight distribution</h4>
           <div className="space-y-2">
             {ratingDetails.distribution.map((count, offset) => {
               const starsCount = 5 - offset;
               const percent = ratingDetails.count > 0 ? (count / ratingDetails.count) * 100 : 0;
               return (
-                <div key={starsCount} className="flex items-center gap-3.5 text-xs text-gray-600">
-                  <div className="flex items-center gap-1 w-12 flex-shrink-0 font-medium text-gray-500">
+                <div key={starsCount} className="flex items-center gap-3.5 text-xs text-slate-600">
+                  <div className="flex items-center gap-1 w-12 flex-shrink-0 font-medium text-slate-500">
                     <span>{starsCount}</span>
                     <Star weight="fill" className="w-3.5 h-3.5 text-amber-500" />
                   </div>
-                  <div className="flex-1 bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                  <div className="flex-1 bg-slate-100 h-2.5 rounded-full overflow-hidden">
                     <div 
                       className="bg-indigo-600 h-full rounded-full transition-all duration-500" 
                       style={{ width: `${percent}%` }}
                     ></div>
                   </div>
-                  <div className="w-8 text-right text-gray-500 font-mono font-semibold">
+                  <div className="w-8 text-right text-slate-500 font-mono font-semibold">
                     {count}
                   </div>
                 </div>
@@ -239,8 +239,8 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         
         {/* SUBMISSION FORM */}
-        <div className="bg-white border border-gray-200/60 rounded-xl p-5 shadow-sm">
-          <h4 className="text-xs font-semibold text-gray-900 flex items-center gap-1.5 border-b border-gray-105 pb-2.5 mb-4 font-display">
+        <div className="bg-white border border-slate-200/60 rounded-xl p-5 shadow-sm">
+          <h4 className="text-xs font-semibold text-slate-900 flex items-center gap-1.5 border-b border-slate-105 pb-2.5 mb-4 font-sans">
             <Sparkle className="w-4 h-4 text-amber-500" />
             <span>Submit Initiative Rating & Review</span>
           </h4>
@@ -248,7 +248,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
           <form onSubmit={handleFeedbackSubmit} className="space-y-4">
             {/* Sentiment Selector */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 mb-1.5">Sentiment Score</label>
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1.5">Sentiment Score</label>
               <div className="flex items-center gap-2">
                 {[1, 2, 3, 4, 5].map((starsIdx) => {
                   const isActive = starsIdx <= sentimentScore;
@@ -257,12 +257,12 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                       key={starsIdx}
                       type="button"
                       onClick={() => setSentimentScore(starsIdx)}
-                      className="p-1 rounded-md hover:bg-gray-50 transition-colors cursor-pointer bg-none border-none text-left"
+                      className="p-1 rounded-md hover:bg-slate-50 transition-colors cursor-pointer bg-none border-none text-left"
                       title={`${starsIdx} Star Rating`}
                     >
                       <Star 
                         weight={isActive ? 'fill' : 'regular'} 
-                        className={`w-7 h-7 transition-all ${isActive ? 'text-amber-500 scale-105' : 'text-gray-300 hover:text-gray-400'}`} 
+                        className={`w-7 h-7 transition-all ${isActive ? 'text-amber-500 scale-105' : 'text-slate-300 hover:text-slate-400'}`} 
                       />
                     </button>
                   );
@@ -275,7 +275,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
 
             {/* Evaluator Role & Source selection */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 mb-1.5">Evaluator Classification</label>
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1.5">Evaluator Classification</label>
               <div className="grid grid-cols-3 gap-2">
                 {(['Teacher', 'Principal', 'Vendor'] as const).map((role) => {
                   const active = source === role;
@@ -287,7 +287,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                       className={`text-xs py-2 rounded-lg border text-center font-medium transition-all cursor-pointer ${
                         active 
                           ? 'border-indigo-600 bg-indigo-50/50 text-indigo-700 shadow-sm ring-1 ring-indigo-500' 
-                          : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50 hover:text-gray-800'
+                          : 'border-slate-200 text-slate-600 bg-white hover:bg-slate-50 hover:text-slate-800'
                       }`}
                     >
                       {role}
@@ -299,9 +299,9 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
 
             {/* Dynamic Activity Linkpicker */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 mb-1">Target Evaluation Deliverable</label>
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1">Target Evaluation Deliverable</label>
               <select
-                className="w-full text-xs border border-gray-200 rounded-lg p-2.5 bg-gray-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer text-gray-700"
+                className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer text-slate-700"
                 value={selectedActivityId}
                 onChange={(e) => setSelectedActivityId(e.target.value)}
               >
@@ -318,16 +318,16 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
 
             {/* Structured Comment Box */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 mb-1">Evaluator remarks</label>
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1">Evaluator remarks</label>
               <textarea
                 required
-                className="w-full h-24 text-xs border border-gray-200 rounded-lg p-3 bg-gray-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-gray-700 placeholder-gray-400 resize-none leading-relaxed"
+                className="w-full h-24 text-xs border border-slate-200 rounded-lg p-3 bg-slate-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-700 placeholder-slate-400 resize-none leading-relaxed"
                 placeholder="Write specific feedback remarks detailing performance markers, operational hurdles, student focus indicators, or material quality reviews..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 maxLength={300}
               />
-              <div className="flex justify-between items-center text-[10px] text-gray-400 mt-1 font-mono">
+              <div className="flex justify-between items-center text-[10px] text-slate-400 mt-1 font-mono">
                 <span>Maximum 300 characters</span>
                 <span>{comment.length} / 300</span>
               </div>
@@ -346,10 +346,10 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
         </div>
 
         {/* FEEDBACK FEED & SEARCH */}
-        <div className="bg-white border border-gray-200/60 rounded-xl p-5 shadow-sm flex flex-col h-[432px]">
-          <div className="flex justify-between items-center border-b border-gray-100 pb-2.5 mb-3 flex-shrink-0">
-            <h4 className="text-xs font-semibold text-gray-900">Qualitative Feed ({filteredFeedbackList.length})</h4>
-            <div className="flex items-center bg-gray-100 rounded-md p-0.5 border border-gray-200">
+        <div className="bg-white border border-slate-200/60 rounded-xl p-5 shadow-sm flex flex-col h-[432px]">
+          <div className="flex justify-between items-center border-b border-slate-100 pb-2.5 mb-3 flex-shrink-0">
+            <h4 className="text-xs font-semibold text-slate-900">Qualitative Feed ({filteredFeedbackList.length})</h4>
+            <div className="flex items-center bg-slate-100 rounded-md p-0.5 border border-slate-200">
               {(['All', 'Teacher', 'Principal', 'Vendor'] as const).map((item) => {
                 const active = filterSource === item;
                 return (
@@ -357,7 +357,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                     key={item}
                     onClick={() => setFilterSource(item)}
                     className={`text-[9px] font-semibold px-2 py-0.5 rounded transition-all cursor-pointer ${
-                      active ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-700 bg-transparent border-none'
+                      active ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-700 bg-transparent border-none'
                     }`}
                   >
                     {item === 'All' ? 'All Roles' : item}
@@ -370,8 +370,8 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
           {/* Feedback list */}
           <div className="flex-1 overflow-y-auto pr-1 space-y-3.5">
             {filteredFeedbackList.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 italic text-xs py-10">
-                <ChatText className="w-8 h-8 text-gray-300 mb-2" />
+              <div className="h-full flex flex-col items-center justify-center text-center text-slate-400 italic text-xs py-10">
+                <ChatText className="w-8 h-8 text-slate-300 mb-2" />
                 <span>No evaluation comments found for this source role filter.</span>
               </div>
             ) : (
@@ -382,7 +382,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                   : null;
 
                 return (
-                  <div key={fb.id} className="p-3 bg-gray-50/50 border border-gray-200/50 rounded-xl flex flex-col gap-2 hover:bg-white hover:border-gray-300/80 transition-all">
+                  <div key={fb.id} className="p-3 bg-slate-50/50 border border-slate-200/50 rounded-xl flex flex-col gap-2 hover:bg-white hover:border-slate-300/80 transition-all">
                     <div className="flex justify-between items-start">
                       <div className="flex items-center gap-1.5">
                         <Badge variant={
@@ -393,22 +393,22 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                           {fb.source}
                         </Badge>
                         {linkedActTitle && (
-                          <span className="text-[10px] text-gray-500 font-medium truncate max-w-[130px]" title={`Feedback on: ${linkedActTitle}`}>
+                          <span className="text-[10px] text-slate-500 font-medium truncate max-w-[130px]" title={`Feedback on: ${linkedActTitle}`}>
                             ↪ {linkedActTitle}
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] font-mono text-gray-400">
+                      <div className="text-[10px] font-mono text-slate-400">
                         {fb.submitted_date || 'May 2026'}
                       </div>
                     </div>
 
-                    <p className="text-xs text-gray-700 leading-relaxed font-sans italic">
+                    <p className="text-xs text-slate-700 leading-relaxed font-sans italic">
                       "{fb.comment}"
                     </p>
 
-                    <div className="flex justify-between items-center border-t border-gray-100/70 pt-2 mt-0.5">
-                      <div className="flex items-center gap-1 text-[10px] font-semibold text-gray-500">
+                    <div className="flex justify-between items-center border-t border-slate-100/70 pt-2 mt-0.5">
+                      <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-500">
                         <span>Score:</span>
                         <div className="flex items-center gap-0.5 ml-0.5">
                           {[1, 2, 3, 4, 5].map((idx) => {
@@ -417,7 +417,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                               <Star 
                                 key={idx} 
                                 weight={active ? 'fill' : 'regular'} 
-                                className={`w-3.5 h-3.5 ${active ? 'text-amber-500' : 'text-gray-300'}`} 
+                                className={`w-3.5 h-3.5 ${active ? 'text-amber-500' : 'text-slate-300'}`} 
                               />
                             );
                           })}
@@ -435,7 +435,7 @@ export function FeedbackPanel({ programId, pActs = [] }: FeedbackPanelProps) {
                               }
                             } catch (e) {}
                           }}
-                          className="text-[9px] text-gray-400 hover:text-gray-600 underline bg-transparent border-none cursor-pointer"
+                          className="text-[9px] text-slate-400 hover:text-slate-600 underline bg-transparent border-none cursor-pointer"
                         >
                           Ref: {fb.id}
                         </button>

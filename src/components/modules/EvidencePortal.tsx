@@ -162,75 +162,75 @@ export function EvidencePortal() {
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 font-display">Document verification</h1>
-          <p className="text-xs text-gray-500 mt-1">Audit logs, compliance files, and program evidence uploads.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-950 font-sans">Document verification</h1>
+          <p className="text-sm text-slate-500 mt-1 font-light">Audit logs, compliance files, and program evidence uploads.</p>
         </div>
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Card className="border-gray-200/60 shadow-sm">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-gray-100 text-gray-600 rounded-lg"><FileText className="w-5 h-5" /></div>
-            <div>
-              <p className="text-[10px] font-semibold text-gray-500">Required</p>
-              <h4 className="text-base font-bold text-gray-900 mt-0.5">{totalRequired}</h4>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <Card className="border-slate-200 shadow-none bg-white">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="p-2.5 bg-slate-100 text-slate-600 rounded-lg"><FileText className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">Required</p>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{totalRequired}</h4>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200/60 shadow-sm">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
-            <div>
-              <p className="text-[10px] font-semibold text-gray-500">Uploaded</p>
-              <h4 className="text-base font-bold text-gray-900 mt-0.5">{uploadedCount}</h4>
+        <Card className="border-slate-200 shadow-none bg-white">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">Uploaded</p>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{uploadedCount}</h4>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200/60 shadow-sm">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-teal-50 text-teal-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
-            <div>
-              <p className="text-[10px] font-semibold text-gray-500">Approved</p>
-              <h4 className="text-base font-bold text-gray-900 mt-0.5">{Math.round(completionPercent)}%</h4>
+        <Card className="border-slate-200 shadow-none bg-white">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="p-2.5 bg-teal-50 text-teal-600 rounded-lg"><CheckCircle className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">Approved</p>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{Math.round(completionPercent)}%</h4>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200/60 shadow-sm">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><Clock className="w-5 h-5" /></div>
-            <div>
-              <p className="text-[10px] font-semibold text-gray-500">Pending</p>
-              <h4 className="text-base font-bold text-gray-900 mt-0.5">{pendingCount}</h4>
+        <Card className="border-slate-200 shadow-none bg-white">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><Clock className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">Pending</p>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{pendingCount}</h4>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200/60 shadow-sm">
-          <CardContent className="p-4 flex items-center space-x-4">
-            <div className="p-3 bg-rose-50 text-rose-600 rounded-lg"><FileText className="w-5 h-5" /></div>
-            <div>
-              <p className="text-[10px] font-semibold text-gray-500">Missing</p>
-              <h4 className="text-base font-bold text-gray-900 mt-0.5">{missingCount}</h4>
+        <Card className="border-slate-200 shadow-none bg-white">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="p-2.5 bg-rose-50 text-rose-600 rounded-lg"><FileText className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">Missing</p>
+              <h4 className="text-base font-bold text-slate-900 mt-0.5">{missingCount}</h4>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex flex-wrap gap-3 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
+          <MagnifyingGlass className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
           <input 
             type="text"
             placeholder="Search documents..."
-            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900/20 focus:border-gray-900"
+            className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
         </div>
-        <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
-          <Funnel className="w-4 h-4 text-gray-500 ml-2" />
+        <div className="flex items-center space-x-2 bg-white border border-slate-200 rounded-lg p-1">
+          <Funnel className="w-4 h-4 text-slate-500 ml-2" />
           <select 
-            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer max-w-[150px] truncate"
+            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-slate-700 cursor-pointer max-w-[150px] truncate"
             value={programFilter}
             onChange={e => setProgramFilter(e.target.value)}
           >
@@ -238,18 +238,18 @@ export function EvidencePortal() {
             {programs.map((p: any) => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
         </div>
-        <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
+        <div className="flex items-center space-x-2 bg-white border border-slate-200 rounded-lg p-1">
           <select 
-            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer"
+            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-slate-700 cursor-pointer"
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
           >
             {typesList.map((t: any) => <option key={t} value={t}>{t === 'All' ? 'All Types' : t}</option>)}
           </select>
         </div>
-        <div className="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg p-1">
+        <div className="flex items-center space-x-2 bg-white border border-slate-200 rounded-lg p-1">
           <select 
-            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-gray-700 cursor-pointer"
+            className="text-sm border-none focus:ring-0 bg-transparent py-1 pr-8 text-slate-700 cursor-pointer"
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
           >
@@ -258,24 +258,24 @@ export function EvidencePortal() {
         </div>
       </div>
 
-      <Card className="border-gray-200/60 shadow-sm overflow-hidden">
+      <Card className="border-slate-200 shadow-none bg-white overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50/50 text-gray-500 text-xs border-b border-gray-100/80">
+            <thead className="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-100/80">
               <tr>
-                <th className="px-6 py-2.5 font-medium text-gray-500">Document title</th>
-                <th className="px-6 py-2.5 font-medium hidden md:table-cell text-gray-500">Context</th>
-                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Type</th>
-                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Due and uploaded</th>
-                <th className="px-6 py-2.5 font-medium text-center text-gray-500">Status</th>
-                <th className="px-6 py-2.5 font-medium text-right text-gray-500">Action</th>
+                <th className="px-6 py-2.5 font-medium text-slate-500">Document title</th>
+                <th className="px-6 py-2.5 font-medium hidden md:table-cell text-slate-500">Context</th>
+                <th className="px-6 py-2.5 font-medium text-center text-slate-500">Type</th>
+                <th className="px-6 py-2.5 font-medium text-center text-slate-500">Due and uploaded</th>
+                <th className="px-6 py-2.5 font-medium text-center text-slate-500">Status</th>
+                <th className="px-6 py-2.5 font-medium text-right text-slate-500">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {filteredDocs.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                     <FileText className="w-8 h-8 mx-auto mb-3 text-gray-300" />
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                     <FileText className="w-8 h-8 mx-auto mb-3 text-slate-300" />
                      <p>No documents found matching filters.</p>
                   </td>
                 </tr>
@@ -285,22 +285,22 @@ export function EvidencePortal() {
                   const isPending = doc.status === 'Pending';
                   
                   return (
-                    <tr key={doc.id} className={`hover:bg-gray-50/50 transition-colors ${isMissing ? 'bg-rose-50/30' : ''}`}>
+                    <tr key={doc.id} className={`hover:bg-slate-50/50 transition-colors ${isMissing ? 'bg-rose-50/30' : ''}`}>
                       <td className="px-6 py-4">
-                        <div className="font-medium text-gray-900">{doc.title}</div>
-                        <div className="text-xs text-gray-500 mt-1">ID: {doc.id}</div>
+                        <div className="font-medium text-slate-900">{doc.title}</div>
+                        <div className="text-xs text-slate-500 mt-1">ID: {doc.id}</div>
                       </td>
                       <td className="px-6 py-4 hidden md:table-cell">
-                        <div className="text-gray-900">{doc.programName}</div>
-                        {doc.activityName && <div className="text-xs text-gray-500 mt-1 max-w-[200px] truncate" title={doc.activityName}>Act: {doc.activityName}</div>}
+                        <div className="text-slate-900">{doc.programName}</div>
+                        {doc.activityName && <div className="text-xs text-slate-500 mt-1 max-w-[200px] truncate" title={doc.activityName}>Act: {doc.activityName}</div>}
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <span className="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-medium tracking-wide">
+                        <span className="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-medium tracking-wide">
                           {doc.type}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <div className="text-xs text-gray-900">Due: {doc.due_date}</div>
+                        <div className="text-xs text-slate-900">Due: {doc.due_date}</div>
                         {doc.uploaded_date ? (
                           <div className="text-xs text-emerald-600 mt-1">Up: {doc.uploaded_date}</div>
                         ) : (
@@ -365,7 +365,7 @@ export function EvidencePortal() {
                                } catch (err: any) {
                                  showToast('Failed to transition evidence status: ' + err.message, 'error');
                                }
-                             }} className="text-xs px-2 py-1 h-auto text-gray-500 border-gray-200 hover:bg-gray-50">
+                             }} className="text-xs px-2 py-1 h-auto text-slate-500 border-slate-200 hover:bg-slate-50">
                                Revert to Pending
                              </Button>
                              <Button variant="ghost" onClick={() => handleDelete(doc)} className="text-xs px-2 py-1 h-auto text-rose-600 hover:text-rose-800 hover:bg-rose-50 focus:ring-0"><Trash className="w-4 h-4"/></Button>
@@ -382,13 +382,13 @@ export function EvidencePortal() {
       </Card>
       
       {uploadDocId && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-in fade-in">
-           <form onSubmit={handleUploadSubmit} className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 animate-in slide-in-from-bottom-4">
-             <h3 className="text-lg font-bold text-gray-900 mb-2">Upload Evidence</h3>
-             <p className="text-sm text-gray-500 mb-4">Please upload a valid PDF or image file.</p>
+        <div className="fixed inset-0 bg-slate-900/50 flex items-end md:items-center justify-center z-50 animate-in fade-in sm:p-4">
+           <form onSubmit={handleUploadSubmit} className="bg-white rounded-t-2xl md:rounded-xl shadow-xl w-full max-w-md p-5 md:p-6 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-4 md:slide-in-from-bottom-0 md:zoom-in-95">
+             <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Evidence</h3>
+             <p className="text-sm text-slate-500 mb-4">Please upload a valid PDF or image file.</p>
              
              <div 
-               className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center bg-gray-50 mb-4 hover:border-indigo-400 hover:bg-indigo-50/50 cursor-pointer transition-colors"
+               className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center bg-slate-50 mb-4 hover:border-indigo-400 hover:bg-indigo-50/50 cursor-pointer transition-colors"
                onClick={() => fileInputRef.current?.click()}
              >
                 <input 
@@ -398,10 +398,10 @@ export function EvidencePortal() {
                   onChange={handleFileChange}
                 />
                 <FileText className="w-8 h-8 mx-auto mb-2 text-indigo-400" />
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-slate-700">
                    {file ? file.name : "Click to browse or drag file here"}
                 </p>
-                {file && <p className="text-xs text-gray-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB</p>}
+                {file && <p className="text-xs text-slate-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB</p>}
              </div>
 
              <div className="flex justify-end space-x-3">

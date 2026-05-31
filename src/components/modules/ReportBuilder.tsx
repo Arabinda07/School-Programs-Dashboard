@@ -163,19 +163,19 @@ export function ReportBuilder() {
     <div className="space-y-8 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 font-display">Insights and reports</h1>
-          <p className="text-xs text-gray-500 mt-1">Exportable summaries, strategic observations, and initiative details.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-950 font-sans">Insights and reports</h1>
+          <p className="text-sm text-slate-500 mt-1 font-light">Exportable summaries, strategic observations, and initiative details.</p>
         </div>
-        <div className="flex flex-wrap gap-2 bg-gray-100 p-1 rounded-lg">
+        <div className="flex flex-wrap gap-2 bg-slate-100 p-1 rounded-lg">
           <button 
              onClick={() => setActiveTab('standard')}
-             className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all ${activeTab === 'standard' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+             className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all ${activeTab === 'standard' ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-900'}`}
           >
             Standard Snapshot
           </button>
           <button 
              onClick={() => setActiveTab('advanced')}
-             className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${activeTab === 'advanced' ? 'bg-white shadow text-indigo-700' : 'text-gray-500 hover:text-gray-900'}`}
+             className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${activeTab === 'advanced' ? 'bg-white shadow text-indigo-700' : 'text-slate-500 hover:text-slate-900'}`}
           >
             <Faders className="w-3.5 h-3.5" />
             Advanced Compilations
@@ -188,7 +188,7 @@ export function ReportBuilder() {
           {/* Left Col: Insights & Monthly KPI */}
           <div className="space-y-6 md:col-span-1">
             {/* Key Insights */}
-            <Card className="border-gray-200/60 shadow-sm bg-gradient-to-br from-indigo-50 to-white">
+            <Card className="border-slate-200 shadow-none bg-white bg-gradient-to-br from-indigo-50 to-white">
               <CardHeader className="py-4 border-b border-indigo-100/50">
                 <CardTitle className="text-xs font-semibold flex items-center space-x-2 text-indigo-950">
                   <Lightbulb className="w-4 h-4 text-indigo-500" />
@@ -198,13 +198,13 @@ export function ReportBuilder() {
               <CardContent className="p-4">
                  <ul className="space-y-3">
                    {insightsList.map((insight, idx) => (
-                     <li key={idx} className="flex items-start space-x-3 text-sm">
+                     <li key={idx} className="flex items-start space-x-3 text-sm p-2 rounded-lg hover:bg-slate-50/50 transition-colors">
                        <span className="mt-0.5">
                          {insight.type === 'warning' && <Warning className="w-4 h-4 text-amber-500" />}
                          {insight.type === 'info' && <Folder className="w-4 h-4 text-blue-500" />}
                          {insight.type === 'success' && <TrendUp className="w-4 h-4 text-emerald-500" />}
                        </span>
-                       <span className="text-gray-700 leading-snug">{insight.text}</span>
+                       <span className="text-slate-700 leading-snug">{insight.text}</span>
                      </li>
                    ))}
                  </ul>
@@ -212,20 +212,20 @@ export function ReportBuilder() {
             </Card>
 
             {/* Monthly KPI */}
-            <Card className="border-gray-200/60 shadow-sm">
-              <CardHeader className="bg-gray-50/50 border-b border-gray-100 py-4">
-                <CardTitle className="text-xs font-semibold flex items-center space-x-2 text-gray-950">
-                  <ChartBar className="w-4 h-4 text-gray-400" />
+            <Card className="border-slate-200 shadow-none bg-white">
+              <CardHeader className="bg-transparent border-b border-slate-100 py-4">
+                <CardTitle className="text-xs font-semibold flex items-center space-x-2 text-slate-950">
+                  <ChartBar className="w-4 h-4 text-slate-400" />
                   <span>Monthly snapshot (May 2026)</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                 <div className="grid grid-cols-2 divide-x divide-y divide-gray-100 border-b border-gray-100">
+                 <div className="grid grid-cols-2 lg:grid-cols-3 divide-x divide-y divide-slate-100 border-b border-slate-100">
                    {summaryCards.map((card, idx) => (
                      <div key={idx} className="p-4 flex flex-col justify-center items-center text-center bg-white">
-                        <p className="text-[10px] font-semibold text-gray-500">{card.label}</p>
-                        <h4 className="text-2xl font-bold text-gray-900 my-1">{card.value}</h4>
-                        <p className="text-[10px] text-gray-400 font-medium">{card.suffix}</p>
+                        <p className="text-[10px] font-semibold text-slate-500">{card.label}</p>
+                        <h4 className="text-2xl font-bold text-slate-900 my-1">{card.value}</h4>
+                        <p className="text-[10px] text-slate-400 font-medium">{card.suffix}</p>
                      </div>
                    ))}
                  </div>
@@ -235,14 +235,14 @@ export function ReportBuilder() {
 
           {/* Right Col: Program Printouts */}
           <div className="md:col-span-2 space-y-4">
-            <h3 className="text-xs font-semibold text-gray-900 mb-2">Program reports</h3>
+            <h3 className="text-xs font-semibold text-slate-900 mb-2">Program reports</h3>
             
             {programReports.map(prog => (
-              <Card key={prog.id} className="border-gray-200/60 shadow-sm hover:shadow-md transition-shadow bg-white">
-                <CardHeader className="py-4 border-b border-gray-100 flex flex-row items-center justify-between bg-gray-50/30">
+              <Card key={prog.id} className="border-slate-200 shadow-none bg-white hover:shadow-md transition-shadow bg-white">
+                <CardHeader className="py-4 border-b border-slate-100 flex flex-row items-center justify-between bg-transparent">
                   <div>
-                    <CardTitle className="text-base text-gray-900">{prog.name}</CardTitle>
-                    <p className="text-xs text-gray-500 mt-0.5">by {prog.vendor} • {prog.category}</p>
+                    <CardTitle className="text-base text-slate-900">{prog.name}</CardTitle>
+                    <p className="text-xs text-slate-500 mt-0.5">by {prog.vendor} • {prog.category}</p>
                   </div>
                   <Badge variant={prog.status === 'Active' ? 'success' : (prog.status === 'Delayed' ? 'warning' : 'default')} className="uppercase tracking-wide text-[10px]">
                     {prog.status}
@@ -252,29 +252,29 @@ export function ReportBuilder() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     {/* Progress */}
                     <div>
-                      <p className="text-xs font-semibold text-gray-500">Activity summary</p>
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Progress</p>
                       <div className="mt-1 flex items-baseline space-x-2">
-                        <span className="text-lg font-bold text-gray-900">{prog.completedActs} / {prog.totalActs}</span>
+                        <span className="text-lg font-bold text-slate-900">{prog.completedActs} / {prog.totalActs}</span>
                       </div>
-                      <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div className="bg-emerald-500 h-full" style={{ width: `${prog.actComp}%` }}></div>
                       </div>
                     </div>
 
                     {/* Reach */}
                     <div>
-                      <p className="text-xs font-semibold text-gray-500">Students engaged</p>
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Students</p>
                       <div className="mt-1 flex items-baseline space-x-2">
-                        <span className="text-lg font-bold text-gray-900">{prog.reach}</span>
-                        <span className="text-[10px] text-gray-500">out of {prog.target_student_count}</span>
+                        <span className="text-lg font-bold text-slate-900">{prog.reach}</span>
+                        <span className="text-[10px] text-slate-500">out of {prog.target_student_count}</span>
                       </div>
                     </div>
 
                     {/* Documentation */}
                     <div>
-                      <p className="text-xs font-semibold text-gray-500">Compliance</p>
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Compliance</p>
                       <div className="mt-1 flex flex-col">
-                        <span className="text-lg font-bold text-gray-900">{Math.round(prog.docComp)}%</span>
+                        <span className="text-lg font-bold text-slate-900">{Math.round(prog.docComp)}%</span>
                         {prog.pendingDocs > 0 ? (
                           <span className="text-[10px] font-medium text-rose-600 flex items-center mt-1"><Warning className="w-3 h-3 mr-1 inline"/> {prog.pendingDocs} pending</span>
                         ) : (
@@ -285,22 +285,22 @@ export function ReportBuilder() {
 
                     {/* Health/Actions */}
                     <div>
-                      <p className="text-xs font-semibold text-gray-500">Action items</p>
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Action items</p>
                       <div className="mt-1 flex flex-col">
-                        <span className="text-lg font-bold text-gray-900">{prog.openActions}</span>
-                        <span className="text-[10px] text-gray-500 mt-1">open tasks</span>
+                        <span className="text-lg font-bold text-slate-900">{prog.openActions}</span>
+                        <span className="text-[10px] text-slate-500 mt-1">open tasks</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Program schedule</p>
-                      <p className="text-xs font-medium text-gray-700">{prog.start_date} to {prog.end_date}</p>
+                      <p className="text-xs text-slate-500 mb-1">Program schedule</p>
+                      <p className="text-xs font-medium text-slate-700">{prog.start_date} to {prog.end_date}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-500 mb-1">Target cohort</p>
-                      <p className="text-xs font-medium text-gray-700">{prog.target_student_count} students</p>
+                      <p className="text-xs text-slate-500 mb-1">Target cohort</p>
+                      <p className="text-xs font-medium text-slate-700">{prog.target_student_count} students</p>
                     </div>
                   </div>
                 </CardContent>
@@ -312,49 +312,49 @@ export function ReportBuilder() {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
           {/* Builder Controls */}
           <div className="xl:col-span-4 space-y-5">
-             <Card className="border-gray-200 shadow-sm border-t-4 border-t-indigo-600">
+             <Card className="border-slate-200 shadow-sm border-t-4 border-t-indigo-600">
                <CardHeader className="pb-3">
-                 <CardTitle className="text-sm border-b border-gray-100 pb-2">Custom Metrics Selector</CardTitle>
+                 <CardTitle className="text-sm border-b border-slate-100 pb-2">Custom Metrics Selector</CardTitle>
                </CardHeader>
                <CardContent className="space-y-4 pt-0">
                  <div className="space-y-2">
-                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Metrics Inclusion</p>
+                   <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Metrics Inclusion</p>
                    {[
                      { id: 'costPerStudent', name: 'Cost per Engaged Student', desc: 'Evalutes efficiency of consumed budget vs actual attendance.' },
                      { id: 'completionVelocity', name: 'Schedule Velocity Variance', desc: 'Measures activity completion parity against the timeline (%)' },
                      { id: 'sentimentIndex', name: 'Vendor Sentiment Index', desc: 'Averages qualitative scores (1-5) derived from active feedback.' },
                      { id: 'complianceDeficit', name: 'Compliance Deficit Level', desc: 'Ratio of unapproved mandatory evidence attachments.' }
                    ].map(metric => (
-                     <label key={metric.id} className="flex items-start space-x-3 p-2.5 border border-gray-150 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                     <label key={metric.id} className="flex items-start space-x-3 p-2.5 border border-slate-150 rounded-lg hover:bg-slate-50 cursor-pointer transition-colors">
                        <input 
                          type="checkbox" 
-                         className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                         className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
                          checked={selectedMetrics.includes(metric.id)}
                          onChange={() => handleToggleMetric(metric.id)}
                        />
                        <div>
-                         <p className="text-xs font-semibold text-gray-800">{metric.name}</p>
-                         <p className="text-[10px] text-gray-500 leading-snug mt-0.5">{metric.desc}</p>
+                         <p className="text-xs font-semibold text-slate-800">{metric.name}</p>
+                         <p className="text-[10px] text-slate-500 leading-snug mt-0.5">{metric.desc}</p>
                        </div>
                      </label>
                    ))}
                  </div>
                  
                  <div className="pt-2">
-                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Filter Scope</p>
+                   <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Filter Scope</p>
                    <div className="max-h-48 overflow-y-auto space-y-1.5 pr-2">
                      {programs.map((p: any) => (
-                       <label key={p.id} className="flex items-center space-x-2 text-xs text-gray-700 cursor-pointer">
+                       <label key={p.id} className="flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
                           <input 
                             type="checkbox" 
-                            className="rounded text-indigo-600 focus:ring-indigo-500 border-gray-300" 
+                            className="rounded text-indigo-600 focus:ring-indigo-500 border-slate-300" 
                             checked={selectedPrograms.includes(p.id)}
                             onChange={() => handleToggleProgram(p.id)}
                           />
-                          <span className="truncate">{p.name} <span className="text-gray-400">({p.vendor})</span></span>
+                          <span className="truncate">{p.name} <span className="text-slate-400">({p.vendor})</span></span>
                        </label>
                      ))}
-                     {programs.length === 0 && <span className="text-xs text-gray-500">No programs available</span>}
+                     {programs.length === 0 && <span className="text-xs text-slate-500">No programs available</span>}
                    </div>
                  </div>
 
@@ -372,46 +372,46 @@ export function ReportBuilder() {
 
           {/* Compiled Output Preview */}
           <div className="xl:col-span-8">
-             <Card className="border-gray-200 shadow-lg min-h-[500px] bg-white">
-               <CardHeader className="bg-gray-50/50 border-b border-gray-100 flex flex-row justify-between items-center py-4">
+             <Card className="border-slate-200 shadow-lg min-h-[500px] bg-white">
+               <CardHeader className="bg-transparent border-b border-slate-100 flex flex-row justify-between items-center py-5 px-6">
                  <div className="flex items-center gap-2">
                    <Presentation className="w-5 h-5 text-indigo-600" />
-                   <CardTitle className="text-sm font-display tracking-wide">Advanced Output Compass</CardTitle>
+                   <CardTitle className="text-sm font-sans tracking-wide">Advanced Output Compass</CardTitle>
                  </div>
-                 <Button variant="outline" className="text-xs h-8 border-gray-200 text-gray-600 hover:bg-white shadow-sm" onClick={() => window.print()}>
+                 <Button variant="outline" className="text-xs h-8 border-slate-200 text-slate-600 hover:bg-white shadow-sm" onClick={() => window.print()}>
                    <Download className="w-3.5 h-3.5 mr-1.5" />
                    Print Matrix
                  </Button>
                </CardHeader>
                <CardContent className="p-6">
                  {selectedPrograms.length === 0 || selectedMetrics.length === 0 ? (
-                   <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-                     <CheckSquareOffset className="w-12 h-12 mb-3 text-gray-200" />
+                   <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+                     <CheckSquareOffset className="w-12 h-12 mb-3 text-slate-200" />
                      <p className="text-sm font-medium">No Compilation Context</p>
                      <p className="text-xs mt-1 text-center max-w-sm">Select at least one metric and one program scope from the builder parameters to generate the evaluation matrix.</p>
                    </div>
                  ) : (
                    <div className="overflow-x-auto print-friendly-matrix">
-                     <table className="w-full text-left text-sm border-collapse">
+                     <table className="w-full text-left text-sm border-collapse mt-2">
                        <thead>
                          <tr>
-                           <th className="border-b-2 border-gray-800 py-3 px-4 font-bold text-xs text-gray-900 uppercase tracking-wider">Initiative</th>
-                           {selectedMetrics.includes('costPerStudent') && <th className="border-b-2 border-gray-800 py-3 px-4 font-bold text-xs text-gray-900 uppercase tracking-wider text-right">Cost Per Student</th>}
-                           {selectedMetrics.includes('completionVelocity') && <th className="border-b-2 border-gray-800 py-3 px-4 font-bold text-xs text-gray-900 uppercase tracking-wider text-center">Velocity Variance</th>}
-                           {selectedMetrics.includes('sentimentIndex') && <th className="border-b-2 border-gray-800 py-3 px-4 font-bold text-xs text-gray-900 uppercase tracking-wider text-center">Sentiment Index</th>}
-                           {selectedMetrics.includes('complianceDeficit') && <th className="border-b-2 border-gray-800 py-3 px-4 font-bold text-xs text-gray-900 uppercase tracking-wider text-center">Compliance Deficit</th>}
+                           <th className="border-b-2 border-slate-200 py-3 px-4 font-semibold text-[10px] text-slate-500 uppercase tracking-wider">Initiative</th>
+                           {selectedMetrics.includes('costPerStudent') && <th className="border-b-2 border-slate-200 py-3 px-4 font-semibold text-[10px] text-slate-500 uppercase tracking-wider text-right">Cost Per Student</th>}
+                           {selectedMetrics.includes('completionVelocity') && <th className="border-b-2 border-slate-200 py-3 px-4 font-semibold text-[10px] text-slate-500 uppercase tracking-wider text-center">Velocity Variance</th>}
+                           {selectedMetrics.includes('sentimentIndex') && <th className="border-b-2 border-slate-200 py-3 px-4 font-semibold text-[10px] text-slate-500 uppercase tracking-wider text-center">Sentiment Index</th>}
+                           {selectedMetrics.includes('complianceDeficit') && <th className="border-b-2 border-slate-200 py-3 px-4 font-semibold text-[10px] text-slate-500 uppercase tracking-wider text-center">Compliance Deficit</th>}
                          </tr>
                        </thead>
-                       <tbody className="divide-y divide-gray-200">
+                       <tbody className="divide-y divide-slate-200">
                          {programReports.filter(pr => selectedPrograms.includes(pr.id)).map(pr => (
-                           <tr key={pr.id} className="hover:bg-gray-50 transition-colors">
+                           <tr key={pr.id} className="hover:bg-slate-50 transition-colors">
                              <td className="py-4 px-4">
-                               <p className="font-semibold text-gray-900">{pr.name}</p>
-                               <p className="text-[10px] text-gray-500">{pr.vendor}</p>
+                               <p className="font-semibold text-slate-900">{pr.name}</p>
+                               <p className="text-[10px] text-slate-500">{pr.vendor}</p>
                              </td>
                              {selectedMetrics.includes('costPerStudent') && (
                                <td className="py-4 px-4 text-right">
-                                 <span className="font-mono text-gray-800">
+                                 <span className="font-mono text-slate-800">
                                    {pr.costPerStudent > 0 ? `₹${Math.round(pr.costPerStudent).toLocaleString()}` : '--'}
                                  </span>
                                </td>
@@ -425,7 +425,7 @@ export function ReportBuilder() {
                              )}
                              {selectedMetrics.includes('sentimentIndex') && (
                                <td className="py-4 px-4 text-center">
-                                 <span className={`font-semibold ${!pr.sentimentScore ? 'text-gray-400 font-normal' : (pr.sentimentScore >= 4 ? 'text-emerald-600' : (pr.sentimentScore <= 2 ? 'text-rose-600' : 'text-amber-600'))}`}>
+                                 <span className={`font-semibold ${!pr.sentimentScore ? 'text-slate-400 font-normal' : (pr.sentimentScore >= 4 ? 'text-emerald-600' : (pr.sentimentScore <= 2 ? 'text-rose-600' : 'text-amber-600'))}`}>
                                    {pr.sentimentScore ? pr.sentimentScore.toFixed(1) + ' / 5.0' : 'N/A'}
                                  </span>
                                </td>
@@ -441,7 +441,7 @@ export function ReportBuilder() {
                          ))}
                        </tbody>
                      </table>
-                     <div className="mt-8 pt-4 border-t border-gray-100 text-[10px] text-gray-400 flex justify-between">
+                     <div className="mt-8 pt-4 border-t border-slate-100 text-[10px] text-slate-400 flex justify-between">
                        <span>Report generated on {new Date(currentDate).toLocaleDateString()}</span>
                        <span>School Program Command Centre Operations</span>
                      </div>

@@ -224,13 +224,13 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
     return lines.map((line, idx) => {
       // Headers
       if (line.startsWith('### ')) {
-        return <h4 key={idx} className="text-sm font-bold text-gray-800 mt-5 border-b pb-1 border-gray-100 uppercase tracking-wide font-mono">{line.replace('### ', '')}</h4>;
+        return <h4 key={idx} className="text-sm font-bold text-slate-800 mt-5 border-b pb-1 border-slate-100 uppercase tracking-wide font-mono">{line.replace('### ', '')}</h4>;
       }
       if (line.startsWith('## ')) {
-        return <h3 key={idx} className="text-base font-bold text-indigo-900 mt-6 font-display">{line.replace('## ', '')}</h3>;
+        return <h3 key={idx} className="text-base font-bold text-indigo-900 mt-6 font-sans">{line.replace('## ', '')}</h3>;
       }
       if (line.startsWith('# ')) {
-        return <h2 key={idx} className="text-lg font-bold text-indigo-950 mt-4 border-l-4 border-indigo-600 pl-3 font-display">{line.replace('# ', '')}</h2>;
+        return <h2 key={idx} className="text-lg font-bold text-indigo-950 mt-4 border-l-4 border-indigo-600 pl-3 font-sans">{line.replace('# ', '')}</h2>;
       }
       
       // Bullets
@@ -239,7 +239,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
         // Highlight bold text inside bullet
         content = content.replace(/\*\*(.*?)\*\*/g, '$1');
         return (
-          <li key={idx} className="text-xs text-gray-700 ml-4 pl-1 list-disc mt-2 leading-relaxed">
+          <li key={idx} className="text-xs text-slate-700 ml-4 pl-1 list-disc mt-2 leading-relaxed">
             {line.includes('**') ? parseLineBolding(line.trim().replace(/^[-*]\s+/, '')) : content}
           </li>
         );
@@ -251,7 +251,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
       }
 
       return (
-        <p key={idx} className="text-xs text-gray-600 leading-relaxed mt-2.5">
+        <p key={idx} className="text-xs text-slate-600 leading-relaxed mt-2.5">
           {line.includes('**') ? parseLineBolding(line) : line}
         </p>
       );
@@ -262,7 +262,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
     const parts = line.split(/\*\*(.*?)\*\*/);
     return parts.map((part, index) => {
       if (index % 2 === 1) {
-        return <strong key={index} className="font-semibold text-gray-900 bg-indigo-50/50 px-1 rounded">{part}</strong>;
+        return <strong key={index} className="font-semibold text-slate-900 bg-indigo-50/50 px-1 rounded">{part}</strong>;
       }
       return part;
     });
@@ -273,16 +273,16 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
       {/* Page Header */}
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 font-display flex items-center gap-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-950 font-sans flex items-center gap-2">
             <Sparkle className="w-5.5 h-5.5 text-indigo-600 animate-pulse" />
             AI Advisory & Clarification Hub
           </h1>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1 font-light">
             Analyze live school data (Sunrise Public School) with the Gemini 3.5 GenAI co-pilot to identify academic gaps, delays, and structural risks.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-gray-400 bg-white border border-gray-150 rounded-lg px-2.5 py-1.5 font-mono shadow-sm">
-          <Clock className="w-3.5 h-3.5 text-gray-500" />
+        <div className="flex items-center gap-2 text-xs text-slate-400 bg-white border border-slate-150 rounded-lg px-2.5 py-1.5 font-mono shadow-sm">
+          <Clock className="w-3.5 h-3.5 text-slate-500" />
           <span>Sync Status: 100% Core Bindings</span>
         </div>
       </div>
@@ -314,13 +314,13 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
           </div>
 
           {/* Operational Macros Card */}
-          <Card className="border-gray-200 shadow-sm">
-            <CardHeader className="bg-gray-50/50 pb-3">
+          <Card className="border-slate-200 shadow-sm">
+            <CardHeader className="bg-slate-50/50 pb-3">
               <div className="flex items-center gap-2">
                 <ListBullets className="w-4 h-4 text-indigo-600" />
                 <CardTitle className="text-sm">One-Click Advisory Audits</CardTitle>
               </div>
-              <p className="text-[11px] text-gray-400 mt-0.5">Quickly construct standard CBSET reports based on dynamic database values.</p>
+              <p className="text-[11px] text-slate-400 mt-0.5">Quickly construct standard CBSET reports based on dynamic database values.</p>
             </CardHeader>
             <CardContent className="p-4 space-y-3">
               <div className="grid grid-cols-1 gap-3">
@@ -331,14 +331,14 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                       key={preset.id}
                       onClick={() => executeAdvisoryCall(preset.prompt, preset.id)}
                       disabled={loading}
-                      className={`text-left p-3.5 rounded-xl border border-gray-150 transition-all shadow-sm ${preset.color} hover:border-indigo-400 focus:outline-none flex gap-3.5 group cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`text-left p-3.5 rounded-xl border border-slate-150 transition-all shadow-sm ${preset.color} hover:border-indigo-400 focus:outline-none flex gap-3.5 group cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
-                      <div className="p-2 rounded-lg bg-gray-150/50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors h-fit mt-0.5">
+                      <div className="p-2 rounded-lg bg-slate-150/50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors h-fit mt-0.5">
                         <Icon className="w-4.5 h-4.5" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold text-gray-800 leading-tight group-hover:text-indigo-900 transition-colors">{preset.title}</p>
-                        <p className="text-[10px] text-gray-400 mt-1 leading-normal">{preset.desc}</p>
+                        <p className="text-xs font-semibold text-slate-800 leading-tight group-hover:text-indigo-900 transition-colors">{preset.title}</p>
+                        <p className="text-[10px] text-slate-400 mt-1 leading-normal">{preset.desc}</p>
                       </div>
                     </button>
                   );
@@ -348,10 +348,10 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
           </Card>
 
           {/* Custom Clarification Query Form */}
-          <Card className="border-gray-200 shadow-sm relative overflow-hidden bg-white">
+          <Card className="border-slate-200 shadow-sm relative overflow-hidden bg-white">
             <CardHeader className="pb-3.5 border-b-none">
               <CardTitle className="text-sm">Custom Operator Inquiries</CardTitle>
-              <p className="text-[11px] text-gray-400">Ask the co-pilot specific questions about curriculum owners, budget utilization, or vendor performance logs.</p>
+              <p className="text-[11px] text-slate-400">Ask the co-pilot specific questions about curriculum owners, budget utilization, or vendor performance logs.</p>
             </CardHeader>
             <CardContent className="p-4 pt-1">
               <form onSubmit={handleCustomSubmit} className="space-y-3">
@@ -360,7 +360,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="e.g. Which programs are utilizing their budget poorly and should be reviewed by the principal? Summarize the feedback sentiment for STEMpedia."
                   rows={4}
-                  className="w-full text-xs rounded-lg border border-gray-200 p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-sans leading-relaxed resize-none"
+                  className="w-full text-xs rounded-lg border border-slate-200 p-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-sans leading-relaxed resize-none"
                 />
                 <Button 
                   type="submit" 
@@ -377,11 +377,11 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
 
         {/* Right Column: Interactive Styled Generated Report */}
         <div className="lg:col-span-7 h-full min-h-[580px]">
-          <Card className="border-gray-200 shadow-lg h-full flex flex-col bg-white">
-            <CardHeader className="bg-gray-50/50 border-b border-gray-100 flex items-center justify-between py-3.5 px-6">
+          <Card className="border-slate-200 shadow-lg h-full flex flex-col bg-white">
+            <CardHeader className="bg-slate-50/50 border-b border-slate-100 flex items-center justify-between py-3.5 px-6">
               <div className="flex items-center gap-2.5">
                 <BookmarkSimple className="w-4 h-4 text-indigo-600" />
-                <span className="text-xs font-semibold text-gray-800 tracking-tight font-mono">Operations Report Viewer</span>
+                <span className="text-xs font-semibold text-slate-800 tracking-tight font-mono">Operations Report Viewer</span>
               </div>
               
               {response && (
@@ -389,9 +389,9 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                   <Button 
                     variant="outline" 
                     onClick={copyToClipboard}
-                    className="py-1 px-2.5 rounded-md hover:bg-indigo-50 text-[11px] border-gray-200 text-gray-600 flex items-center gap-1.5 h-8.5 font-sans"
+                    className="py-1 px-2.5 rounded-md hover:bg-indigo-50 text-[11px] border-slate-200 text-slate-600 flex items-center gap-1.5 h-8.5 font-sans"
                   >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-gray-500" />}
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
                     <span>{copied ? 'Copied' : 'Copy Report'}</span>
                   </Button>
                   <Button 
@@ -400,7 +400,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                       setResponse(null);
                       setActivePreset(null);
                     }}
-                    className="py-1 px-2 text-[11px] hover:bg-rose-50 border-gray-200 text-gray-500 h-8.5"
+                    className="py-1 px-2 text-[11px] hover:bg-rose-50 border-slate-200 text-slate-500 h-8.5"
                     title="Clear Report"
                   >
                     <ArrowClockwise className="w-3.5 h-3.5" />
@@ -420,11 +420,11 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                     className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-white/90 z-20"
                   >
                     <CircleNotch className="w-10 h-10 text-indigo-600 animate-spin" />
-                    <h3 className="font-semibold text-sm text-gray-800 mt-4 font-display">Compiling Dynamic School Analysis...</h3>
-                    <p className="text-[11px] text-gray-400 max-w-sm mt-1.5 leading-relaxed">
+                    <h3 className="font-semibold text-sm text-slate-800 mt-4 font-sans">Compiling Dynamic School Analysis...</h3>
+                    <p className="text-[11px] text-slate-400 max-w-sm mt-1.5 leading-relaxed">
                       Gemini 3.5 is currently auditing Sunrise Public School's logs, checking assessment bands, compliance scores, and formatting your strategic corrective steps.
                     </p>
-                    <div className="mt-5 text-[10px] text-gray-300 font-mono italic animate-pulse">
+                    <div className="mt-5 text-[10px] text-slate-300 font-mono italic animate-pulse">
                       Synthesizing: target_students vs competency_variance
                     </div>
                   </motion.div>
@@ -437,10 +437,10 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                     className="space-y-1 font-sans pr-1"
                   >
                     {/* Header Seal/Watermark inside content print frame */}
-                    <div className="flex items-center justify-between border-b pb-4 mb-4 border-gray-100">
+                    <div className="flex items-center justify-between border-b pb-4 mb-4 border-slate-100">
                       <div>
                         <span className="text-[9px] font-bold text-indigo-600 tracking-widest uppercase font-mono">CBSE Progressive Academic Board</span>
-                        <h2 className="text-sm font-bold text-gray-900 font-display mt-0.5">Sunrise Public School Operations Council</h2>
+                        <h2 className="text-sm font-bold text-slate-900 font-sans mt-0.5">Sunrise Public School Operations Council</h2>
                       </div>
                       <Badge variant="purple">Internal Advisor Draft</Badge>
                     </div>
@@ -448,7 +448,7 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                     {renderFormattedText(response)}
 
                     {/* Official Document Disclaimer Footer */}
-                    <div className="pt-8 mt-8 border-t border-gray-100 text-[10px] text-gray-400 text-center font-mono flex items-center justify-between pr-2">
+                    <div className="pt-8 mt-8 border-t border-slate-100 text-[10px] text-slate-400 text-center font-mono flex items-center justify-between pr-2">
                       <span>Source: SPCC Live Relational Synced Engine</span>
                       <span>Authorized Draft: academic_center_v1</span>
                     </div>
@@ -458,13 +458,13 @@ export function AIAdvisor({ data }: AIAdvisorProps) {
                     key="empty"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="h-full min-h-[380px] flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-gray-150 rounded-xl bg-gray-50/50"
+                    className="h-full min-h-[380px] flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-slate-150 rounded-xl bg-slate-50/50"
                   >
                     <div className="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4.5 shadow-sm">
                       <Sparkle className="w-5.5 h-5.5" />
                     </div>
-                    <h3 className="text-sm font-semibold text-gray-800 font-display">Awaiting AI Operations Clarification</h3>
-                    <p className="text-xs text-gray-500 max-w-md mt-2 leading-relaxed">
+                    <h3 className="text-sm font-semibold text-slate-800 font-sans">Awaiting AI Operations Clarification</h3>
+                    <p className="text-xs text-slate-500 max-w-md mt-2 leading-relaxed">
                       Select one of the **One-Click Advisory Audits** from the left panel, or submit a custom inquiry. The advisor will cross-reference live tables dynamically to build clear reviews.
                     </p>
                     {/* Tiny tip line */}

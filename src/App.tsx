@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSupabaseContext } from './context/SupabaseContext';
+import { useNotifications } from './hooks/useDataRepositories';
 import { 
   Gauge, 
   Folders, 
@@ -16,7 +17,9 @@ import {
   CheckCircle,
   WarningCircle,
   Info,
-  Sparkle
+  Sparkle,
+  List,
+  X
 } from '@phosphor-icons/react';
 import { CommandCentre } from './components/modules/CommandCentre';
 import { ProgramsDirectory } from './components/modules/ProgramsDirectory';
@@ -50,9 +53,11 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const contextData = useSupabaseContext();
   const { user, seedData, showToast } = contextData;
   const data = contextData; // for compatibility with subcomponents
+  const { markAsRead, markAllAsRead, unreadCount } = useNotifications();
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -150,17 +155,28 @@ export default function App() {
     .toUpperCase() || 'U';
 
   const actionCount = data.actions.filter(a => a.severity === 'Critical' && a.status !== 'Resolved').length;
-  const unreadCount = data.notifications ? data.notifications.filter((n: any) => !n.read).length : 0;
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans overflow-hidden">
+    <div className="flex h-screen bg-slate-50 font-sans overflow-hidden">
       {/* Sidebar Navigation */}
-      <div className="w-64 bg-gray-900 text-gray-300 flex flex-col print:hidden flex-shrink-0">
-        <div className="h-16 flex items-center px-6 border-b border-gray-800 bg-gray-950">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
-            <GraduationCap className="w-5 h-5 text-white" />
+      {/* Mobile Menu Backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 z-40 md:hidden transition-opacity"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Navigation */}
+      <div className={cn(
+        "fixed inset-y-0 left-0 bg-slate-950 text-slate-300 flex flex-col print:hidden flex-shrink-0 z-50 w-64 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0",
+        mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="h-16 flex items-center px-6 border-b border-slate-800/60 bg-slate-950/50">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 bg-white/5 border border-white/10 shadow-sm">
+            <GraduationCap className="w-4 h-4 text-slate-200" />
           </div>
-          <span className="font-display font-semibold text-white text-base tracking-tight">Initiatives Hub</span>
+          <span className="font-sans font-medium text-slate-100 text-sm tracking-tight">Administration</span>
         </div>
         
         <div className="px-6 py-4">
@@ -168,17 +184,17 @@ export default function App() {
             {tabs.map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
                 className={cn(
                   "w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors group",
                   activeTab === tab.id 
-                    ? "bg-indigo-600 text-white" 
-                    : "hover:bg-gray-800 hover:text-white"
+                    ? "bg-slate-800 text-white" 
+                    : "hover:bg-slate-800/50 hover:text-white"
                 )}
               >
                 <tab.icon className={cn(
-                  "flex-shrink-0 w-5 h-5 mr-3",
-                  activeTab === tab.id ? "text-white" : "text-gray-400 group-hover:text-gray-300"
+                  "flex-shrink-0 w-4 h-4 mr-3",
+                  activeTab === tab.id ? "text-slate-200" : "text-slate-500 group-hover:text-slate-300"
                 )} />
                 <span className="flex-1 text-left">{tab.name}</span>
                 {tab.id === 'actions' && actionCount > 0 && (
@@ -191,24 +207,20 @@ export default function App() {
           </nav>
         </div>
 
-        <div className="mt-auto px-6 py-4 border-t border-gray-800 bg-gray-950/20">
+        <div className="mt-auto px-6 py-4 border-t border-slate-800/60 bg-slate-950/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center min-w-0 flex-1 mr-2">
-              <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold text-white border border-indigo-500 flex-shrink-0 shadow-inner">
+              <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-medium text-slate-300 border border-slate-700 flex-shrink-0 shadow-inner">
                 {initials}
               </div>
               <div className="ml-3 min-w-0 flex-1">
-                <p className="text-sm font-medium text-white truncate" title={displayName}>{displayName}</p>
-                <p className="text-xs text-gray-400 truncate" title={roleName}>{roleName}</p>
+                <p className="text-sm font-medium text-slate-200 truncate" title={displayName}>{displayName}</p>
+                <p className="text-xs text-slate-500 truncate" title={roleName}>{roleName}</p>
               </div>
             </div>
-            <button onClick={() => supabase.auth.signOut()} title="Sign Out" className="text-gray-400 hover:text-white transition-colors flex-shrink-0">
-              <SignOut className="w-5 h-5" />
+            <button onClick={() => supabase.auth.signOut()} title="Sign Out" className="text-slate-500 hover:text-slate-300 transition-colors flex-shrink-0 cursor-pointer">
+              <SignOut className="w-4 h-4" />
             </button>
-          </div>
-          <div className="mt-3 flex justify-between items-center text-[10px] text-gray-500">
-             <span>Admin Panel</span>
-             <button onClick={seedData} className="hover:text-indigo-400 transition-colors underline bg-transparent border-none p-0 cursor-pointer">Reset Data</button>
           </div>
         </div>
       </div>
@@ -216,32 +228,37 @@ export default function App() {
       {/* Main Content Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Ribbon */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 flex-shrink-0 print:hidden z-10">
-          <div className="flex items-center space-x-6 text-sm text-gray-600">
-             <div className="flex items-center border-r border-gray-200 pr-6">
-                <span className="font-semibold text-gray-900 mr-2">School:</span> Sunrise Public School
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 flex-shrink-0 print:hidden z-10 relative">
+          <div className="flex items-center">
+             <button
+               onClick={() => setMobileMenuOpen(true)}
+               className="p-1 mr-3 md:hidden rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+             >
+               <List className="w-6 h-6" />
+             </button>
+             <div className="hidden sm:flex items-center space-x-4 md:space-x-6 text-xs md:text-sm text-slate-500 tracking-tight">
+               <div className="flex items-center border-r border-slate-200 pr-4 md:pr-6">
+                  <span className="font-semibold text-slate-900 mr-2">School:</span> Sunrise Public School
+               </div>
+               <div className="flex items-center pr-4 md:pr-6">
+                  <span className="font-semibold text-slate-900 mr-2">Year:</span> 2025-26
+               </div>
              </div>
-             <div className="flex items-center border-r border-gray-200 pr-6">
-                <span className="font-semibold text-gray-900 mr-2">Year:</span> 2025-26
-             </div>
-             <div className="text-xs text-gray-400">
-                Data current as of May 23, 2026
-             </div>
+             <div className="sm:hidden text-[13px] font-semibold text-slate-900">Sunrise Public School</div>
           </div>
-          <div className="flex items-center space-x-4 relative">
+          <div className="flex items-center space-x-2 md:space-x-4 relative">
              {/* Notifications Trigger */}
              <button 
                title="Notifications" 
                onClick={() => {
                  setShowNotifMenu(prev => !prev);
-                 setShowSettingsMenu(false);
                }} 
                className={cn(
-                 "p-1.5 rounded-lg hover:bg-gray-100 transition-colors relative cursor-pointer", 
-                 showNotifMenu ? "text-indigo-600 bg-indigo-50" : "text-gray-400 hover:text-gray-600"
+                 "p-1.5 rounded-lg hover:bg-slate-100 transition-colors relative cursor-pointer", 
+                 showNotifMenu ? "text-slate-900 bg-slate-100" : "text-slate-400 hover:text-slate-600"
                )}
              >
-               <Bell className="w-5 h-5"/>
+               <Bell className="w-4 h-4"/>
                {unreadCount > 0 && (
                  <span className="absolute -top-1 -right-1 block h-4.5 w-4.5 rounded-full bg-rose-500 text-[9px] font-bold text-white flex items-center justify-center ring-2 ring-white animate-pulse">
                    {unreadCount}
@@ -249,45 +266,18 @@ export default function App() {
                )}
              </button>
 
-             {/* Settings Trigger */}
-             <button 
-               title="Settings" 
-               onClick={() => {
-                 setShowSettingsMenu(prev => !prev);
-                 setShowNotifMenu(false);
-               }} 
-               className={cn(
-                 "p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer", 
-                 showSettingsMenu ? "text-indigo-600 bg-indigo-50" : "text-gray-400 hover:text-gray-600"
-               )}
-             >
-               <Gear className="w-5 h-5"/>
-             </button>
-
              {/* Notifications Dropdown Panel */}
              {showNotifMenu && (
-               <div className="absolute right-12 top-10 w-96 bg-white rounded-xl shadow-2xl border border-gray-100 py-2.5 z-50 text-left animate-in fade-in slide-in-from-top-2 duration-150">
-                 <div className="flex items-center justify-between px-4 pb-2 border-b border-gray-100">
-                   <h3 className="font-semibold text-gray-900 text-sm">Operator Alerts</h3>
+               <div className="absolute right-0 md:right-12 top-12 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-slate-100 py-2.5 z-50 text-left animate-in fade-in slide-in-from-top-2 duration-150">
+                 <div className="flex items-center justify-between px-4 pb-2 border-b border-slate-100">
+                   <h3 className="font-semibold text-slate-900 text-sm">Alerts</h3>
                    {unreadCount > 0 && (
                      <button 
                        onClick={async () => {
-                         try {
-                           if (data.useFallback) {
-                             // Mark all locally
-                             initialData.notifications.forEach(n => n.read = true);
-                             showToast("All notifications marked as read.", "success");
-                           } else {
-                             // Mark all in database
-                             const { error } = await supabase.from('notifications').update({ read: true }).eq('read', false);
-                             if (error) throw error;
-                             await data.refreshData();
-                             showToast("All notifications marked as read in database.", "success");
-                           }
-                           setShowNotifMenu(false);
-                         } catch (err: any) {
-                           showToast("Failed to mark all read: " + err.message, "error");
-                         }
+                         await markAllAsRead(data.useFallback, () => {
+                           initialData.notifications.forEach(n => n.read = true);
+                         });
+                         setShowNotifMenu(false);
                        }} 
                        className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold hover:underline bg-transparent border-none cursor-pointer"
                      >
@@ -295,14 +285,14 @@ export default function App() {
                      </button>
                    )}
                  </div>
-                 <div className="max-h-72 overflow-y-auto divide-y divide-gray-50">
+                 <div className="max-h-72 overflow-y-auto divide-y divide-slate-50">
                    {(!data.notifications || data.notifications.length === 0) ? (
-                     <div className="px-4 py-8 text-center text-xs text-gray-400">
-                       Zero unread alerts. Excellent coordination!
+                     <div className="px-4 py-8 text-center text-xs text-slate-400">
+                       No unread alerts.
                      </div>
                    ) : (
                      data.notifications.map((notif: any) => (
-                       <div key={notif.id} className={cn("p-4 transition-colors hover:bg-gray-50 flex items-start gap-3", !notif.read && "bg-indigo-50/20")}>
+                       <div key={notif.id} className={cn("p-4 transition-colors hover:bg-slate-50 flex items-start gap-3", !notif.read && "bg-indigo-50/20")}>
                          <div className={cn("p-1.5 rounded-lg flex-shrink-0 mt-0.5", 
                            notif.type === 'warning' ? "bg-amber-100 text-amber-700" :
                            notif.type === 'error' ? "bg-rose-100 text-rose-700" :
@@ -312,23 +302,18 @@ export default function App() {
                            <AlertIcon type={notif.type} />
                          </div>
                          <div className="flex-1 min-w-0">
-                           <p className="text-xs font-semibold text-gray-900 leading-tight">{notif.title}</p>
-                           <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">{notif.message}</p>
-                           <span className="text-[9px] text-gray-400 mt-2 block font-mono">
+                           <p className="text-xs font-semibold text-slate-900 leading-tight">{notif.title}</p>
+                           <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">{notif.message}</p>
+                           <span className="text-[9px] text-slate-400 mt-2 block font-mono">
                              {new Date(notif.created_at || Date.now()).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                            </span>
                          </div>
                          {!notif.read && (
                            <button 
                              onClick={async () => {
-                               try {
-                                 await data.updateItem('notifications', notif.id, { read: true });
-                                 showToast("Marked as read.", "success");
-                               } catch (err: any) {
-                                 showToast("Could not mark as read.", "error");
-                               }
+                               await markAsRead(notif.id);
                              }}
-                             className="text-[10px] text-indigo-600 hover:text-indigo-800 font-semibold bg-gray-100 hover:bg-indigo-50 px-2 py-0.5 rounded-md flex-shrink-0 cursor-pointer"
+                             className="text-[10px] text-indigo-600 hover:text-indigo-800 font-semibold bg-slate-100 hover:bg-indigo-50 px-2 py-0.5 rounded-md flex-shrink-0 cursor-pointer"
                            >
                              Read
                            </button>
@@ -339,56 +324,12 @@ export default function App() {
                  </div>
                </div>
              )}
-
-             {/* Settings Dropdown Panel */}
-             {showSettingsMenu && (
-               <div className="absolute right-0 top-10 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 p-4.5 z-50 text-left animate-in fade-in slide-in-from-top-2 duration-150">
-                 <h3 className="font-semibold text-gray-900 text-sm mb-3.5 border-b border-gray-150 pb-1.5">System Settings</h3>
-                 
-                 <div className="space-y-4">
-                   <div>
-                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 font-mono">Database Connection</span>
-                     <div className="bg-gray-50 rounded-lg p-3 border border-gray-100 flex items-center justify-between">
-                       <div className="min-w-0">
-                         <p className="text-xs font-semibold text-gray-800 truncate">Supabase Postgres</p>
-                         <p className="text-[10px] text-gray-500 mt-0.5 mt-1 font-mono">
-                           {data.useFallback ? "Using local JSON" : "Live synchronization"}
-                         </p>
-                       </div>
-                       <Badge variant={data.useFallback ? "warning" : "success"}>
-                         {data.useFallback ? "Fallback" : "Live"}
-                       </Badge>
-                     </div>
-                   </div>
-
-                   <div>
-                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 font-mono">Migration Seeds</span>
-                     <p className="text-[11px] text-gray-500 mb-2.5">Re-populate standard schemas with Sunrise Public School baseline data.</p>
-                     <Button 
-                       variant="outline" 
-                       onClick={async () => {
-                         await seedData();
-                         setShowSettingsMenu(false);
-                       }} 
-                       className="w-full text-xs py-1.5 flex items-center justify-center gap-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50"
-                     >
-                       <Database className="w-4 h-4" /> Seed Tables
-                     </Button>
-                   </div>
-
-                   <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-400 font-mono">
-                     <span>Deployment Host</span>
-                     <span>Cloud Run v1.0</span>
-                   </div>
-                 </div>
-               </div>
-             )}
           </div>
         </header>
 
         {/* Scrollable Main Area */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-8 print:p-0 print:bg-white relative">
-           <div className="max-w-7xl mx-auto h-full">
+        <main className="flex-1 overflow-y-auto bg-slate-50 p-4 pt-6 md:p-8 md:pt-10 print:p-0 print:bg-white relative">
+           <div className="max-w-[1400px] mx-auto h-full">
              {renderContent()}
            </div>
         </main>

@@ -1,89 +1,75 @@
 # School Program Command Centre (SPCC)
-### Operational & Academic Program Tracking Platform (v1.2 Full-Stack Integration)
+
+### Operational & Academic Program Tracking Platform 
 
 The **School Program Command Centre (SPCC)** is a specialized, one-stop operations hub designed specifically for school principals, vice-principals, coordinators, and directors to track all active enrichment initiatives, board diagnostics, remedial cohorts, co-curricular workshops, and compliance criteria in their educational institutions.
 
-This enterprise-grade prototype is configured default with real-world dataset representing **Sunrise Public School, West Bengal (Academic Year 2025-26)**.
+This enterprise-grade application solves a critical problem in educational administration: managing multiple third-party vendors, tracking academic interventions, and ensuring compliance without relying on scattered, disjointed spreadsheets.
 
 ---
 
-## 📖 Operational User Guide (How School Authorities Use This Platform)
+## 📖 For School Authorities: How This Platform Solves Operational Challenges
 
-To ensure that enrichment programs are delivering actual academic value and compliance objectives, school authorities can navigate the platform through their typical weekly administrative workflow:
+To ensure that enrichment programs are delivering actual academic value and compliance objectives, school authorities can navigate the platform through their typical administrative workflow:
 
-### 1. Weekly Compliance Audit & Blockers Check (Command Centre Tab)
-- **High-Level Heatcheck**: Upon opening the platform, the school leadership (Principal or Director) immediately reviews the core operational scorecards—Active Programs counts, Global Session Completion Rates, overall Evidence Compliance, and Outstanding Core Risk items.
-- **The Urgent Action Rail**: Critical bottlenecks (such as payment clearances or overdue CBSE submissions) are pinned directly to the screen so leadership can focus on immediate hurdles without reading through lengthy reports.
-- **Session Attendance Trends**: Real-time visual tracking of planned vs. actual sessions shows if vendors are actually conducting classes on-schedule or if student attendance is declining.
+### 1. Weekly Compliance Audit & Blockers Check (Command Centre)
+- **High-Level Heatcheck**: Upon opening the platform, school leadership can immediately review core operational scorecards—Active Programs counts, Global Session Completion Rates, overall Evidence Compliance, and Outstanding Core Risk items.
+- **Urgent Action Rail**: Critical bottlenecks (e.g., payment clearances or overdue CBSE submissions) are surfaced instantly to focus leadership on immediate hurdles.
+- **Session Attendance Trends**: Real-time visual tracking of planned vs. actual sessions shows if vendors are conducting classes on-schedule or if student attendance is declining.
 
-### 2. Multi-Vendor Audit & Direct Qualitative Validation (Programs Directory Tab)
-- **Program & Owner Alignment**: A transparent directory lists exactly who owns which program (e.g., LEGO Robotics lab, Mindler Career Counseling), which grade cohorts (Grades 5-8) are targeted, and who is their external vendor partner.
-- **Immediate Financial Assessment**: Tracks allocated budgets versus utilized funds to prevent over-spending.
-- **Dynamic Field-Review Form**: Below each expanded program, school coordinators or visiting principals can log direct evaluations classifying themselves as **Teacher, Principal, or Vendor**. They select a target deliverable, rate it (1-5 stars), and leave comments.
-- **Integrated Operators Notification**: High-severity remarks (low scores <= 2) instantly trigger system-wide alert notifications, making operational flaws impossible to hide.
+### 2. Multi-Vendor Audit & Direct Validation (Programs Directory)
+- **Program & Owner Alignment**: A transparent directory lists program ownership, target cohorts (e.g., Grades 5-8), and external vendor partners.
+- **Dynamic Field-Review Form**: Coordinators or principals can log direct evaluations classified by role (Teacher, Principal, or Vendor). They can rate deliverables and leave actionable comments.
+- **Integrated Operations Notification**: High-severity remarks seamlessly trigger alerts, enforcing accountability.
 
-### 3. Curriculum & Syllabus Lag Review (Session logs Tab)
-- **Chronological Accountability**: The timeline logs every remedial class, Olympiad pep-talk, or STEM workshop session.
-- **Audit Delayed Classes**: Authorities can filter specifically for classes marked "Delayed" or "Cancelled," see which teacher or external trainer was responsible, view attendance parameters, and follow up directly on lost academic hours.
+### 3. Curriculum & Syllabus Lag Review (Session logs)
+- **Chronological Accountability**: The timeline logs every remedial class, Olympiad prep session, or STEM workshop.
+- **Audit Delayed Classes**: Authorities can filter for "Delayed" or "Cancelled" classes, identify responsible trainers, and act immediately to recover lost academic hours.
 
-### 4. Remedial Planning & Subject Benchmarks (Cognitive Assessments Tab)
-- **Diagnostic Mapping**: Academic Coordinators inspect assessment scores (e.g., NCERT standards, ASSET exams, logic evaluation grids) plotted dynamically to spot struggling segments.
-- **Competency Band Management**: Review exact proportions of students who are "High Performance", "Target Core", or "Needs Remediation" (Academic Remediation Required). If more than 25% of students fall in the remediation category, a coaching pipeline is initiated.
+### 4. Remedial Planning & Subject Benchmarks (Cognitive Assessments)
+- **Diagnostic Mapping**: Academic Coordinators can inspect assessment scores plotted dynamically to spot struggling segments.
+- **Competency Band Management**: Review bands of student performance (e.g., "High Performance" vs "Needs Remediation"). If a threshold is crossed, a coaching pipeline can be structured.
 
-### 5. Social & CBSE Inspections Documentation (Evidence Portal Tab)
-- **Audit Verification**: CBSE and ICSE regulations require physical evidence of co-curricular classes (photographs, activity write-ups, attendance lists).
-- **Approved Assets Library**: Coordinators filter for "Pending Review" uploads from vendors. They inspect the PDF or image quality directly on the screen, and click to update status directly to "Approved" or "Missing."
+### 5. Inspection Documentation (Evidence Portal)
+- **Audit Verification**: Maintain physical evidence of co-curricular classes (photographs, write-ups, attendance lists) for regulatory compliance.
+- **Approved Assets Library**: Coordinators can review uploaded evidence, inspect it directly, and approve or reject submissions to build a compliant record.
 
-### 6. Action Closure Tracking (Action Tracker Tab)
-- **Remediation Milestones**: Rather than tracking tasks in chaotic notebooks, all corrective directives (e.g., "Replace faulty STEM components", "Procure extra career guides") are assigned clear due dates, owners, and severity statuses.
-- **Status Progression**: Move tasks with high-density visual lanes from "Open" through "In Progress" to "Resolved" to maintain momentum.
+### 6. Action Closure Tracking (Action Tracker)
+- **Remediation Milestones**: Corrective directives are assigned clear due dates, owners, and severity statuses, replacing chaotic notebook tracking.
+- **Status Progression**: Move tasks visually from "Open" through "In Progress" to "Resolved" to maintain momentum and accountability.
 
-### 7. Core Board & Inspector Reporting (Report Builder Tab)
-- **Custom printable Scorecards**: When visiting inspectors or board members request summaries, choose which parameters to include (Financial charts, class reaches, vendor audits) and click to compile.
-- **Print-Optimization**: The page automatically reformats into clean, border-aligned paper layouts during a regular browser print (`Ctrl + P` or `Cmd + P`), producing a board-ready report.
+### 7. Core Board & Inspector Reporting (Report Builder)
+- **Custom Printable Scorecards**: Instantly compile reports for visiting inspectors or board members by selecting relevant modules.
+- **Print-Optimization**: The layout automatically reformats for paper printing, producing board-ready documentation instantly.
 
-### 8. Gemini Co-Pilot Audits (AI Advisory Centre Tab)
-- **Live Contextualization**: Parses the live database, connecting assessment results, action states, delay trackers, and reviews.
-- **Strategic Remediation Planner**: Principals trigger one-click analytical audits:
-  1. *Cognitive Remediation Planner*: Formulates high-fidelity remedial structures based on low competency bands of cohorts.
-  2. *Session Lag Stagnation Audit*: Evaluates trainer delays & drafts professional administrative warning emails.
-  3. *Action Item Prioritizer*: Maps out solutions for critical risks.
-  4. *Compliance Audit*: Flags missing सीबीएसई / CBSE certificates.
-- **Executive Q&A**: Type in any custom query to get a logical, formatted operational diagnostic plan.
+### 8. AI-Assisted Audits (AI Advisory Centre)
+- **Live Contextualization**: An integrated AI assistant parses the live database to connect assessment results, action states, and delays.
+- **Strategic Remediation Planner**: Principals can trigger one-click strategic audits to formulate remedial structures, evaluate trainer delays, prioritize action items, or enforce compliance.
 
 ---
 
-## 🛠️ Technical Setup & Stack Architecture
+## 🛠️ For Engineering Leaders & Hiring Managers: Technical Architecture & Stack
 
-At its foundation, this platform is a modern full-stack web application designed for absolute data safety:
+At its foundation, SPCC is a modern, high-performance web application engineered for data security, strict typings, and responsive design.
 
-1. **Client Interface**: Built as a responsive Single-Page Application (SPA) utilizing **React 18** with **Vite**, styled using the utility classes of **Tailwind CSS**.
-2. **Icons & Animations**: High-contrast icons from `@phosphor-icons/react` and interactive micro-transitions powered by **motion** (importing from `motion/react`).
-3. **Backend Server**: Powered by a robust **Express** Node.js backend (`server.ts`) running on port `3000`.
-4. **Secure Proxy API Routes**: Since API keys should never be exposed to the client-side browser, the client makes a request to `/api/gemini/clarify`. The Node backend securely communicates with Google GenAI using the modern `@google/genai` SDK and the `gemini-3.5-flash` model.
-5. **Typescript Isolation**: All operational schemas are structurally bound through `/src/types.ts`.
+### 1. Client Architecture
+- **Framework**: Built as a responsive Single-Page Application (SPA) utilizing **React 18** with **Vite** for rapid Module Replacement and optimal build times.
+- **Styling**: Engineered with **Tailwind CSS**, favoring a strict semantic token strategy (Slate/Charcoal palettes) over generic designs, strictly adhering to high-contrast, professional interfaces.
+- **Animation & Visual Feedback**: Seamless micro-interactions and route transitions powered by **Framer Motion** (`motion/react`), enhancing the application feel without relying on bloated libraries.
+- **Iconography**: Rendered efficiently via `@phosphor-icons/react` for crisp vector scalable graphics.
 
-### Running Locally
+### 2. Backend & API Design
+- **Runtime**: Powered by a robust **Express.js** Node.js backend executing scalable container workloads.
+- **Secure Proxy Architecture**: Enforces strict separation of concerns. Third-party secrets (such as the Gemini API Key or Supabase configurations) are exclusively held server-side, accessed and proxy-routed natively through Express middleware (`/api/*`).
+- **Data & Identity Layer**: (Optionally integrated depending on deployment) Pluggable readiness for **Supabase / PostgreSQL**, featuring distinct edge capabilities for Row-Level Security (RLS).
 
-1. **Environmental Configuration**:
-   Create a `.env` file (or set your secrets in the settings panel):
-   ```env
-   GEMINI_API_KEY=your_actual_api_key_here
-   NODE_ENV=development
-   ```
-2. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
-3. **Run Development Mode (Express + Vite)**:
-   ```bash
-   npm run dev
-   ```
-4. **Build Production Asset Bundles (Compiled CommonJS server & client)**:
-   ```bash
-   npm run build
-   ```
-5. **Start Production Container Server**:
-   ```bash
-   npm run start
-   ```
+### 3. Artificial Intelligence Integration
+- **Modern LLM Interaction**: The platform securely communicates with Google's GenAI ecosystem using the modern `@google/genai` TypeScript SDK (leveraging the `gemini-3.5-flash` model) rather than legacy equivalents.
+- **System Instructions**: Contextual operations are driven by rigid, prompt-engineered structures ensuring the AI provides actionable analytical audits instead of generic conversational replies.
+
+### 4. Code Quality & Modularity
+- **Strict TypeScript**: Deep Type enforcement throughout the codebase via centralized definitions (`/src/types.ts`) ensures that properties such as Action Item status, severity ratings, and cohort parameters are robustly caught at compile time.
+- **Module Separation**: The application is highly modular, splitting distinct operational domains (Command Centre, Evidence Portal, Action Tracker) into clean, standalone components to facilitate distributed team contribution and logical organization.
+
+### 5. Deployment Build System
+- **Compiled ES Module Pipeline**: Employs an ESBuild compilation step to bundle backend TypeScript down into a single `dist/server.cjs` file executable via Node environments. Includes Vite integration for seamless SPA asset serving while in production (`NODE_ENV=production`), effectively shipping a full-stack container application behind a simple, unified start command.
